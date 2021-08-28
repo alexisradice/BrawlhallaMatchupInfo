@@ -187,8 +187,9 @@ def detect_brawlhalla(queue=None):
     while not end:
         try:
             ok = False
-            pathcode1 = "imgLoading.jpg"
-            textarealocation = pyautogui.locateOnScreen(pathcode1, confidence=0.9)
+            # pathcode1 = "img/imgLoading.jpg"
+            textarealocation = pyautogui.locateOnScreen(
+                r"img/imgLoading.jpg", confidence=0.9)
             if textarealocation is not None:
                 print("Detection OK")
                 ok = True
