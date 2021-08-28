@@ -195,10 +195,10 @@ def detect_brawlhalla(queue=None):
                 time.sleep(1)
                 image = pyautogui.screenshot()
                 image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
-                cv2.imwrite("imgBattle.jpg", image)
+                cv2.imwrite("img/imgBattle.jpg", image)
                 #   pyautogui.write(code)
 
-                imgBattle = cv2.imread('imgBattle.jpg')
+                imgBattle = cv2.imread('img/imgBattle.jpg')
                 imgBattle = get_greyscale(imgBattle)
                 # imgBattle = thresholding(imgBattle)
                 y = 263
@@ -264,7 +264,7 @@ def detect_brawlhalla(queue=None):
 
 if __name__ == '__main__':
 
-    imgTest1 = cv2.imread('imgBattle.jpg')
+    imgTest1 = cv2.imread('img/imgBattle.jpg')
 
     imgTest1 = get_greyscale(imgTest1)
     # imgTest1 = thresholding(imgTest1)
@@ -286,7 +286,7 @@ if __name__ == '__main__':
     cv2.waitKey(0)
 
 
-    imgTest2 = cv2.imread('imgTest2.jpg')
+    imgTest2 = cv2.imread('img/imgTest2.jpg')
 
     imgTest2 = get_greyscale(imgTest2)
     # imgTest2 = thresholding(imgTest2)
@@ -307,7 +307,7 @@ if __name__ == '__main__':
     cv2.imshow('Image', crop2)
     cv2.waitKey(0)
 
-    imgTest1 = cv2.imread('imgTest1.jpg')
+    imgTest1 = cv2.imread('img/imgTest1.jpg')
     y = 50
     x = 860
     h = 580
