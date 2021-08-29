@@ -1,3 +1,4 @@
+import os
 import cv2
 import numpy as np
 import pyautogui
@@ -160,7 +161,7 @@ TagsList = ["Veteran of Asgard I",
             "SEA Challenger"]
 
 reader = easyocr.Reader(['en'])  # need to run only once to load model into memory
-
+dir = os.path.dirname(os.path.abspath(__file__))
 
 def ocr_core(img):
     text = reader.readtext(img, detail = 0)
@@ -187,19 +188,20 @@ def detect_brawlhalla(queue=None):
     while not end:
         try:
             ok = False
-            # pathcode1 = "img/imgLoading.jpg"
-            textarealocation = pyautogui.locateOnScreen(
-                r"img/imgLoading.jpg", confidence=0.9)
+            pathcodeLoading = dir + "/img/imgLoading.jpg"
+            pathcodeBattle = dir + "/img/imgBattle.jpg"
+            
+            textarealocation = pyautogui.locateOnScreen(pathcodeLoading, confidence=0.9)
             if textarealocation is not None:
                 print("Detection OK")
                 ok = True
                 time.sleep(1)
                 image = pyautogui.screenshot()
                 image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
-                cv2.imwrite("img/imgBattle.jpg", image)
+                cv2.imwrite(pathcodeBattle, image)
                 #   pyautogui.write(code)
 
-                imgBattle = cv2.imread('img/imgBattle.jpg')
+                imgBattle = cv2.imread(pathcodeBattle)
                 imgBattle = get_greyscale(imgBattle)
                 # imgBattle = thresholding(imgBattle)
                 y = 263
@@ -264,8 +266,15 @@ def detect_brawlhalla(queue=None):
 # TESTS
 
 if __name__ == '__main__':
+    # dir_path = os.path.dirname(os.path.realpath(__file__))
+    dir = os.path.dirname(os.path.abspath(__file__))
 
-    imgTest1 = cv2.imread('img/imgBattle.jpg')
+    pathcodeLoading = dir + "/img/imgLoading.jpg"
+    pathcodeBattle = dir + "/img/imgBattle.jpg"
+    pathcodeTest1 = dir + "/img/imgTest1.jpg"
+    pathcodeTest2 = dir + "/img/imgTest2.jpg"
+
+    imgTest1 = cv2.imread(pathcodeBattle)
 
     imgTest1 = get_greyscale(imgTest1)
     # imgTest1 = thresholding(imgTest1)
@@ -286,8 +295,7 @@ if __name__ == '__main__':
     cv2.imshow('Image', crop)
     cv2.waitKey(0)
 
-
-    imgTest2 = cv2.imread('img/imgTest2.jpg')
+    imgTest2 = cv2.imread(pathcodeTest2)
 
     imgTest2 = get_greyscale(imgTest2)
     # imgTest2 = thresholding(imgTest2)
@@ -308,7 +316,7 @@ if __name__ == '__main__':
     cv2.imshow('Image', crop2)
     cv2.waitKey(0)
 
-    imgTest1 = cv2.imread('img/imgTest1.jpg')
+    imgTest1 = cv2.imread(pathcodeTest1)
     y = 50
     x = 860
     h = 580
@@ -340,8 +348,6 @@ if __name__ == '__main__':
 
     # J1
 
-    listInfoTempJ1 = listInfoJ1
-
     if (len(listInfoJ1) == 4):
         persoJ1 = listInfoJ1[0].lower().capitalize()
         tagJ1 = listInfoJ1[1]
@@ -349,38 +355,22 @@ if __name__ == '__main__':
         clanJ1 = listInfoJ1[3]
 
     if (len(listInfoJ1) == 3):
+        persoJ1 = listInfoJ1[0].lower().capitalize()
         for i in range(len(listInfoJ1)):
-            for z in range(len(TagsList)):
-                if (TagsList[z] in listInfoJ1[i]):  # a changer en contient (.find)
-                    tagJ1 = listInfoJ1[i]
-            for y in range(len(CharactersList)):
-                if (CharactersList[y].upper() in listInfoJ1[i]):
-                    persoJ1 = CharactersList[y]
-                    persoTempJ1 = listInfoJ1[i]
-
-            if (listInfoJ1[i][0] == '<' and listInfoJ1[i][len(listInfoJ1[i]) - 1] == '>'):
-                clanJ1 = listInfoJ1[i]
+            if (listInfoJ1[2][0] == '<' and listInfoJ1[2][len(listInfoJ1[i]) - 1] == '>'):
+                clanJ1 = listInfoJ1[2]
+                nameJ1 = listInfoJ1[1]
+                tagJ1 = "/"
+            else:
+                tagJ1 = listInfoJ1[1]
+                nameJ1 = listInfoJ1[2]
+                clanJ1 = "/"
 
     if (len(listInfoJ1) == 2):
         persoJ1 = listInfoJ1[0].lower().capitalize()
         nameJ1 = listInfoJ1[1]
-        tagJ1 = "None"
-        clanJ1 = "None"
-
-    if (len(listInfoJ1) == 3):
-        listInfoTempJ1.remove(persoTempJ1)
-
-    try:
-        listInfoTempJ1.remove(clanJ1)
-    except ValueError:
-        clanJ1 = "None"
-
-    try:
-        listInfoTempJ1.remove(tagJ1)
-    except ValueError:
-        tagJ1 = "None"
-
-    nameJ1 = listInfoTempJ1[0]
+        tagJ1 = "/"
+        clanJ1 = "/"
 
 
 
@@ -389,7 +379,6 @@ if __name__ == '__main__':
 
 
     # J2
-    listInfoTempJ2 = listInfoJ2
 
     if (len(listInfoJ2) == 4):
         persoJ2 = listInfoJ2[0].lower().capitalize()
@@ -398,38 +387,24 @@ if __name__ == '__main__':
         clanJ2 = listInfoJ2[3]
 
     if (len(listInfoJ2) == 3):
+        persoJ2 = listInfoJ2[0].lower().capitalize()
         for i in range(len(listInfoJ2)):
-            for z in range(len(TagsList)):
-                if (TagsList[z] in listInfoJ2[i]):  # a changer en contient (.find)
-                    tagJ2 = listInfoJ2[i]
-            for y in range(len(CharactersList)):
-                if (CharactersList[y].upper() in listInfoJ2[i]):
-                    persoJ2 = CharactersList[y]
-                    persoTempJ2 = listInfoJ2[i]
-
-            if (listInfoJ2[i][0] == '<' and listInfoJ2[i][len(listInfoJ2[i]) - 1] == '>'):
-                clanJ2 = listInfoJ2[i]
+            if (listInfoJ2[2][0] == '<' and listInfoJ2[2][len(listInfoJ2[i]) - 1] == '>'):
+                clanJ2 = listInfoJ2[2]
+                nameJ2 = listInfoJ2[1]
+                tagJ2 = "/"
+            else:
+                tagJ2 = listInfoJ2[1]
+                nameJ2 = listInfoJ2[2]
+                clanJ2 = "/"
 
     if (len(listInfoJ2) == 2):
         persoJ2 = listInfoJ2[0].lower().capitalize()
         nameJ2 = listInfoJ2[1]
-        tagJ2 = "None"
-        clanJ2 = "None"
+        tagJ2 = "/"
+        clanJ2 = "/"
 
-    if (len(listInfoJ1) == 3):
-        listInfoTempJ2.remove(persoTempJ2)
 
-    try:
-        listInfoTempJ2.remove(clanJ2)
-    except ValueError:
-        clanJ2 = "None"
-
-    try:
-        listInfoTempJ2.remove(tagJ2)
-    except ValueError:
-        tagJ2 = "None"
-
-    nameJ2 = listInfoTempJ2[0]
 
     print("Character J1: " + persoJ1 + ", Tag J1: " + tagJ1 + ", Name J1: " + nameJ1 + ", Clan J1: " + clanJ1)
     print("Character J2: " + persoJ2 + ", Tag J2: " + tagJ2 + ", Name J2: " + nameJ2 + ", Clan J2: " + clanJ2)
