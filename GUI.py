@@ -18,6 +18,9 @@ ASSETS_PATH = OUTPUT_PATH / Path("./img/assets")
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
+
+
+end = False
 brawlIdClient = 0
 
 def mainFrame():
@@ -63,8 +66,10 @@ def mainFrame():
                 levelOpponent = apiResult['playerStatsJSON']['level']
                 ratingOpponent = apiResult['playerRankedJSON']['rating']
                 peakRatingOpponent = apiResult['playerRankedJSON']['peak_rating']
-                mainCharacterOpponent = apiResult['playerOtherJSON']['mainCharacterFinal']
-                mainWeaponOpponent = apiResult['playerOtherJSON']['mainWeaponFinal']
+                mainCharacterOpponent = apiResult['playerOtherJSON']['mainCharacter']
+                mainWeaponOpponent = apiResult['playerOtherJSON']['mainWeapon']
+                trueLevelOpponent = apiResult['playerOtherJSON']['trueLevel']
+                passiveAgressiveOpponent = apiResult['playerOtherJSON']['passiveAgressive']
 
                 levelOpponentEntry.delete(0, tk.END)
                 levelOpponentEntry.insert(0, levelOpponent)
@@ -80,6 +85,12 @@ def mainFrame():
 
                 mainWeaponOpponentEntry.delete(0, tk.END)
                 mainWeaponOpponentEntry.insert(0, mainWeaponOpponent)
+
+                trueLevelOpponentEntry.delete(0, tk.END)
+                trueLevelOpponentEntry.insert(0, trueLevelOpponent)
+
+                passiveAgressiveOpponentEntry.delete(0, tk.END)
+                passiveAgressiveOpponentEntry.insert(0, passiveAgressiveOpponent)
 
             except Exception as e:
                 print(e)
@@ -113,7 +124,7 @@ def mainFrame():
         font=("Roboto", 36 * -1)
     )
 
-    canvas.itemcongig(playerNameText, text="text has changed!")
+    # canvas.itemcongig(playerNameText, text="text has changed!")
 
     canvas.create_rectangle(
         26.000000000000014,
@@ -229,7 +240,7 @@ def mainFrame():
     entry_image_ratingOpponent = tk.PhotoImage(
         file=relative_to_assets("entry_1.png"))
     entry_bg_ratingOpponent = canvas.create_image(
-        298.5,
+        226.5,
         252.5,
         image=entry_image_ratingOpponent
     )
@@ -246,8 +257,8 @@ def mainFrame():
         highlightthickness=0
     )
     ratingOpponentEntry.place(
-        x=218.0,
-        y=239.0,
+        x=146.0,
+        y=242.0,
         width=161.0,
         height=25.0
     )
@@ -256,7 +267,7 @@ def mainFrame():
     entry_image_peakRatingOpponent = tk.PhotoImage(
         file=relative_to_assets("entry_2.png"))
     entry_bg_peakRatingOpponent = canvas.create_image(
-        298.5,
+        200.5,
         298.5,
         image=entry_image_peakRatingOpponent
     )
@@ -273,8 +284,8 @@ def mainFrame():
         highlightthickness=0
     )
     peakRatingOpponentEntry.place(
-        x=218.0,
-        y=285.0,
+        x=120.00000000000001,
+        y=288.0,
         width=161.0,
         height=25.0
     )
@@ -283,7 +294,7 @@ def mainFrame():
     entry_image_mainCharacterOpponent = tk.PhotoImage(
         file=relative_to_assets("entry_3.png"))
     entry_bg_mainCharacterOpponent = canvas.create_image(
-        298.5,
+        241.5,
         344.5,
         image=entry_image_mainCharacterOpponent
     )
@@ -300,8 +311,8 @@ def mainFrame():
         highlightthickness=0
     )
     mainCharacterOpponentEntry.place(
-        x=218.0,
-        y=331.0,
+        x=161.0,
+        y=334.0,
         width=161.0,
         height=25.0
     )
@@ -310,7 +321,7 @@ def mainFrame():
     entry_image_mainWeaponOpponent = tk.PhotoImage(
         file=relative_to_assets("entry_4.png"))
     entry_bg_mainWeaponOpponent = canvas.create_image(
-        298.5,
+        247.5,
         390.5,
         image=entry_image_mainWeaponOpponent
     )
@@ -327,8 +338,8 @@ def mainFrame():
         highlightthickness=0
     )
     mainWeaponOpponentEntry.place(
-        x=218.0,
-        y=377.0,
+        x=167.0,
+        y=380.0,
         width=161.0,
         height=25.0
     )
@@ -336,7 +347,7 @@ def mainFrame():
     entry_image_levelOpponent = tk.PhotoImage(
         file=relative_to_assets("entry_5.png"))
     entry_bg_levelOpponent = canvas.create_image(
-        298.5,
+        180.5,
         436.5,
         image=entry_image_levelOpponent
     )
@@ -353,8 +364,8 @@ def mainFrame():
         highlightthickness=0
     )
     levelOpponentEntry.place(
-        x=218.0,
-        y=423.0,
+        x=100.00000000000001,
+        y=426.0,
         width=161.0,
         height=25.0
     )
@@ -363,7 +374,7 @@ def mainFrame():
     entry_image_trueLevelOpponent = tk.PhotoImage(
         file=relative_to_assets("entry_6.png"))
     entry_bg_trueLevelOpponent = canvas.create_image(
-        298.5,
+        222.5,
         482.5,
         image=entry_image_trueLevelOpponent
     )
@@ -380,28 +391,35 @@ def mainFrame():
         highlightthickness=0
     )
     trueLevelOpponentEntry.place(
-        x=218.0,
-        y=469.0,
+        x=142.0,
+        y=472.0,
         width=161.0,
         height=25.0
     )
 
-
-    entry_image_7 = tk.PhotoImage(
+    passiveAgressiveOpponent = tk.StringVar()
+    entry_image_passiveAgressiveOpponent = tk.PhotoImage(
         file=relative_to_assets("entry_7.png"))
-    entry_bg_7 = canvas.create_image(
-        298.5,
+    entry_bg_passiveAgressiveOpponent = canvas.create_image(
+        295.5,
         528.5,
-        image=entry_image_7
+        image=entry_image_passiveAgressiveOpponent
     )
-    entry_7 = ttk.Entry(
+    passiveAgressiveOpponentEntry = ttk.Entry(
+        textvariable=passiveAgressiveOpponent,
         bd=0,
         bg="#000000",
+        # disabledbackground="#000000",
+        fg="#ffffff",
+        # disabledforeground="#ffffff",
+        # state="readonly",
+        # state="disabled",
+        font=("Calibri", 20),
         highlightthickness=0
     )
-    entry_7.place(
-        x=218.0,
-        y=515.0,
+    passiveAgressiveOpponentEntry.place(
+        x=215.0,
+        y=518.0,
         width=161.0,
         height=25.0
     )
@@ -459,7 +477,8 @@ def mainFrame():
 
     infosBrawlRecuperation()
     window.mainloop()
-
+    global end
+    end = True
 
 q = Queue()
 t = Thread(target=detect_brawlhalla, args=(q,))
