@@ -11,6 +11,9 @@ import numpy as np
 import pyautogui
 import time
 import easyocr
+from io import BytesIO
+from PIL import ImageTk, Image
+import urllib.request
 
 
 OUTPUT_PATH = Path(__file__).parent
@@ -19,6 +22,7 @@ ASSETS_PATH = OUTPUT_PATH / Path("./img/assets")
 
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
+
 
 
 # need to run only once to load model into memory
@@ -33,7 +37,8 @@ def ocr_core(img):
 def get_greyscale(image):
     return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-
+global URL
+URL = "http://localhost:8080/api/brawl/legends/ada"
 end = False
 
 def detect_brawlhalla(queue=None):
@@ -133,6 +138,7 @@ def mainFrame():
                 response = requests.get(linkAPI)
                 apiResult = response.json()
 
+                playerNameOpponent = apiResult['statsOpponentJSON']['name']
                 levelOpponent = apiResult['statsOpponentJSON']['level']
                 ratingOpponent = apiResult['infosOpponentJSON']['rating']
                 peakRatingOpponent = apiResult['infosOpponentJSON']['peak_rating']
@@ -154,7 +160,23 @@ def mainFrame():
                 trueLevelClient = apiResult['miscClientJSON']['trueLevel']
                 passiveAgressiveClient = apiResult['miscClientJSON']['passiveAgressive']
                 timePlayedClient = apiResult['miscClientJSON']['timePlayed']
+
                 
+                
+                URL = "http://"+pictureMainRankedCharacterOpponent
+                # URL = "http://localhost:8080/api/brawl/legends/teros"
+                u = urllib.request.urlopen(URL)
+                raw_data = u.read()
+                u.close()
+
+                im = Image.open(BytesIO(raw_data))
+                im = im.resize((150,150),Image.ANTIALIAS)
+                photo = ImageTk.PhotoImage(im)
+                button["image"] = photo
+                button.image = photo
+
+
+                playerNameOpponentLabel["text"] = playerNameOpponent
 
                 levelOpponentEntry.delete(0, tk.END)
                 levelOpponentEntry.insert(0, levelOpponent)
@@ -191,6 +213,7 @@ def mainFrame():
 
         root.after(100, infosBrawlRecuperation)
 
+
     window = tk.Tk()
 
     window.geometry("405x660")
@@ -198,6 +221,20 @@ def mainFrame():
     window.configure(bg="#1F1A1A")
 
     # FontOfEntryList = tk.font.Font(family="Calibri", size=12)
+
+    # URL = "http://localhost:8080/api/brawl/legends/ada"
+    # u = urllib.request.urlopen(URL)
+    # raw_data = u.read()
+    # u.close()
+
+    # im = Image.open(BytesIO(raw_data))
+    # im = im.resize((10000,10000),Image.ANTIALIAS)
+    # photo = ImageTk.PhotoImage(im)
+
+    # button = tk.Button(image=photo,width=100,height=100,compound="c")
+    # button.image = photo
+    # button.pack()
+
 
     canvas = tk.Canvas(
     window,
@@ -395,6 +432,16 @@ def mainFrame():
 
 
 
+    #image=photo,
+    button = tk.Label(image="", compound="c",bg="#847171" )
+    # button.image = photo
+    button.place(
+    x=15.0,
+    y=15.0,
+    width=154,
+    height=154
+    )
+    # button.pack()
 
 
 
@@ -418,7 +465,7 @@ def mainFrame():
         # disabledforeground="#ffffff",
         # state="readonly",
         # state="disabled",
-        font=("ITCErasStd-Ultra", 18 * -1),
+        font=("ITCErasStd-Ultra", 20 * -1),
         highlightthickness=0
     )
     ratingOpponentEntry.place(
@@ -445,7 +492,7 @@ def mainFrame():
         # disabledforeground="#ffffff",
         # state="readonly",
         # state="disabled",
-        font=("ITCErasStd-Ultra", 18 * -1),
+        font=("ITCErasStd-Ultra", 20 * -1),
         highlightthickness=0
     )
     peakRatingOpponentEntry.place(
@@ -472,7 +519,7 @@ def mainFrame():
         # disabledforeground="#ffffff",
         # state="readonly",
         # state="disabled",
-        font=("ITCErasStd-Ultra", 18 * -1),
+        font=("ITCErasStd-Ultra", 20 * -1),
         highlightthickness=0
     )
     mainLevelCharacterOpponentEntry.place(
@@ -499,7 +546,7 @@ def mainFrame():
         # disabledforeground="#ffffff",
         # state="readonly",
         # state="disabled",
-        font=("ITCErasStd-Ultra", 18 * -1),
+        font=("ITCErasStd-Ultra", 20 * -1),
         highlightthickness=0
     )
     mainWeaponOpponentEntry.place(
@@ -525,7 +572,7 @@ def mainFrame():
         # disabledforeground="#ffffff",
         # state="readonly",
         # state="disabled",
-        font=("ITCErasStd-Ultra", 18 * -1),
+        font=("ITCErasStd-Ultra", 20 * -1),
         highlightthickness=0
     )
     levelOpponentEntry.place(
@@ -552,7 +599,7 @@ def mainFrame():
         # disabledforeground="#ffffff",
         # state="readonly",
         # state="disabled",
-        font=("ITCErasStd-Ultra", 18 * -1),
+        font=("ITCErasStd-Ultra", 20 * -1),
         highlightthickness=0
     )
     trueLevelOpponentEntry.place(
@@ -578,7 +625,7 @@ def mainFrame():
         # disabledforeground="#ffffff",
         # state="readonly",
         # state="disabled",
-        font=("ITCErasStd-Ultra", 18 * -1),
+        font=("ITCErasStd-Ultra", 20 * -1),
         highlightthickness=0
     )
     mainRankedCharacterOpponentEntry.place(
@@ -605,7 +652,7 @@ def mainFrame():
         # disabledforeground="#ffffff",
         # state="readonly",
         # state="disabled",
-        font=("ITCErasStd-Ultra", 18 * -1),
+        font=("ITCErasStd-Ultra", 20 * -1),
         highlightthickness=0
     )
     timePlayedOpponentEntry.place(
@@ -631,7 +678,7 @@ def mainFrame():
         # disabledforeground="#ffffff",
         # state="readonly",
         # state="disabled",
-        font=("ITCErasStd-Ultra", 18 * -1),
+        font=("ITCErasStd-Ultra", 20 * -1),
         highlightthickness=0
     )
     passiveAgressiveOpponentEntry.place(
@@ -658,22 +705,48 @@ def mainFrame():
         fill="#837171",
         outline="#847171")
 
-    canvas.create_text(
-        14.000000000000014,
-        171.0,
-        anchor="nw",
-        text="PlayerName",
-        fill="#FFFFFF",
-        font=("ITCErasStd-Ultra", 36 * -1)
-    )
+    # canvas.create_text(
+    #     14.000000000000014,
+    #     171.0,
+    #     anchor="nw",
+    #     text="PlayerName",
+    #     fill="#FFFFFF",
+    #     font=("ITCErasStd-Ultra", 36 * -1)
+    # )
 
-    canvas.create_rectangle(
-        325.0,
-        14.0,
-        385.0,
-        74.0,
-        fill="#201B1B",
-        outline="#847171")
+    # label = tk.Label(gui, textvariable=var, relief=RAISED)
+    # playerNameOpponent = tk.StringVar()
+    # playerNameOpponent.set("Bonjour le monde")
+    playerNameOpponentLabel = tk.Label(
+        # textvariable=playerNameOpponent,
+        text = "PlayerName",
+        bd=0,
+        bg="#1F1A1A",
+        # disabledbackground="#000000",
+        fg="#ffffff",
+        # disabledforeground="#ffffff",
+        # state="readonly",
+        # state="disabled",
+        font=("ITCErasStd-Ultra", 36 * -1),
+        anchor="w"
+        # highlightthickness=0,
+        # relief=RAISED
+    )
+    playerNameOpponentLabel.place(
+        x=14.000000000000014,
+        y=173.0,
+        width=350.0,
+        height=40.0
+    )
+    # playerNameOpponentLabel.pack()
+
+    # playerNameOpponentLabel.create_rectangle(
+    #     325.0,
+    #     14.0,
+    #     385.0,
+    #     74.0,
+    #     fill="#201B1B",
+    #     outline="#847171")
 
     button_image_1 = tk.PhotoImage(
         file=relative_to_assets("button_1.png"))
@@ -691,13 +764,13 @@ def mainFrame():
         height=60.0
     )
 
-    canvas.create_rectangle(
-        19.000000000000014,
-        18.0,
-        169.0,
-        161.0,
-        fill="#837171",
-        outline="#847171")
+    # canvas.create_rectangle(
+    #     19.000000000000014,
+    #     18.0,
+    #     169.0,
+    #     161.0,
+    #     fill="#837171",
+    #     outline="#847171")
 
     window.resizable(False, False)
 
