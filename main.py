@@ -128,24 +128,33 @@ def mainFrame():
 
             try:
 
-                linkEloClient = "https://brawlhalla-api.herokuapp.com/v1/ranked/id?brawlhalla_id={}".format(
-                    brawlIdClient)
-                responseEloClient = requests.get(linkEloClient)
-                apiResultEloClient = responseEloClient.json()
-                EloClient = apiResultEloClient["data"]["rating"]
-                print(finalList[2], EloClient, brawlIdClient)
-
-                linkAPI = "http://localhost:8080/api/brawl/{}&{}&{}".format(
-                    finalList[2], EloClient, brawlIdClient)
+                linkAPI = "http://localhost:8080/api/brawl/{}&{}".format(
+                    finalList[2], brawlIdClient)
                 response = requests.get(linkAPI)
                 apiResult = response.json()
-                levelOpponent = apiResult['playerStatsJSON']['level']
-                ratingOpponent = apiResult['playerRankedJSON']['rating']
-                peakRatingOpponent = apiResult['playerRankedJSON']['peak_rating']
-                mainCharacterOpponent = apiResult['playerOtherJSON']['mainCharacter']
-                mainWeaponOpponent = apiResult['playerOtherJSON']['mainWeapon']
-                trueLevelOpponent = apiResult['playerOtherJSON']['trueLevel']
-                passiveAgressiveOpponent = apiResult['playerOtherJSON']['passiveAgressive']
+
+                levelOpponent = apiResult['statsOpponentJSON']['level']
+                ratingOpponent = apiResult['infosOpponentJSON']['rating']
+                peakRatingOpponent = apiResult['infosOpponentJSON']['peak_rating']
+                mainLevelCharacterOpponent = apiResult['miscOpponentJSON']['mainLevelCharacter']
+                mainRankedCharacterOpponent = apiResult['miscOpponentJSON']['mainRankedCharacter']
+                pictureMainRankedCharacterOpponent = apiResult['miscOpponentJSON']['pictureMainRankedCharacter']
+                mainWeaponOpponent = apiResult['miscOpponentJSON']['mainWeapon']
+                trueLevelOpponent = apiResult['miscOpponentJSON']['trueLevel']
+                passiveAgressiveOpponent = apiResult['miscOpponentJSON']['passiveAgressive']
+                timePlayedOpponent = apiResult['miscOpponentJSON']['timePlayed']
+
+                levelClient = apiResult['statsClientJSON']['level']
+                ratingClient = apiResult['rankedClientJSON']['rating']
+                peakRatingClient = apiResult['rankedClientJSON']['peak_rating']
+                mainLevelCharacterClient = apiResult['miscClientJSON']['mainLevelCharacter']
+                mainRankedCharacterClient = apiResult['miscClientJSON']['mainRankedCharacter']
+                pictureMainRankedCharacter = apiResult['miscClientJSON']['pictureMainRankedCharacter']
+                mainWeaponClient = apiResult['miscClientJSON']['mainWeapon']
+                trueLevelClient = apiResult['miscClientJSON']['trueLevel']
+                passiveAgressiveClient = apiResult['miscClientJSON']['passiveAgressive']
+                timePlayedClient = apiResult['miscClientJSON']['timePlayed']
+                
 
                 levelOpponentEntry.delete(0, tk.END)
                 levelOpponentEntry.insert(0, levelOpponent)
@@ -156,8 +165,14 @@ def mainFrame():
                 peakRatingOpponentEntry.delete(0, tk.END)
                 peakRatingOpponentEntry.insert(0, peakRatingOpponent)
 
-                mainCharacterOpponentEntry.delete(0, tk.END)
-                mainCharacterOpponentEntry.insert(0, mainCharacterOpponent)
+                mainLevelCharacterOpponentEntry.delete(0, tk.END)
+                mainLevelCharacterOpponentEntry.insert(0, mainLevelCharacterOpponent)
+
+                mainRankedCharacterOpponentEntry.delete(0, tk.END)
+                mainRankedCharacterOpponentEntry.insert(0, mainRankedCharacterOpponent)
+
+                # pictureMainRankedCharacterOpponentEntry.delete(0, tk.END)
+                # pictureMainRankedCharacterOpponentEntry.insert(0, pictureMainRankedCharacterOpponent)
 
                 mainWeaponOpponentEntry.delete(0, tk.END)
                 mainWeaponOpponentEntry.insert(0, mainWeaponOpponent)
@@ -168,6 +183,9 @@ def mainFrame():
                 passiveAgressiveOpponentEntry.delete(0, tk.END)
                 passiveAgressiveOpponentEntry.insert(0, passiveAgressiveOpponent)
 
+                timePlayedOpponentEntry.delete(0, tk.END)
+                timePlayedOpponentEntry.insert(0, timePlayedOpponent)
+
             except Exception as e:
                 print(e)
 
@@ -175,101 +193,38 @@ def mainFrame():
 
     window = tk.Tk()
 
-    window.geometry("406x570")
-    window.title("Brawlhalla Matchup Infos")
+    window.geometry("405x660")
+    window.title("Brawlhalla Matchup Infos v1")
     window.configure(bg="#1F1A1A")
 
     # FontOfEntryList = tk.font.Font(family="Calibri", size=12)
 
     canvas = tk.Canvas(
-        window,
-        bg="#1F1A1A",
-        height=570,
-        width=406,
-        bd=0,
-        highlightthickness=0,
-        relief="ridge"
+    window,
+    bg = "#1F1A1A",
+    height = 660,
+    width = 405,
+    bd = 0,
+    highlightthickness = 0,
+    relief = "ridge"
     )
 
-    canvas.place(x=0, y=0)
-    playerNameText = canvas.create_text(
-        14.000000000000014,
-        165.0,
-        anchor="nw",
-        text="PlayerName",
-        fill="#FFFFFF",
-        font=("Roboto", 36 * -1)
-    )
-
-    # canvas.itemcongig(playerNameText, text="text has changed!")
-
+    canvas.place(x = 0, y = 0)
     canvas.create_rectangle(
         26.000000000000014,
-        515.0,
+        239.0,
         379.0,
-        548.0,
+        272.0,
         fill="#000000",
         outline="")
 
-    canvas.create_text(
-        39.934211730957045,
-        521.0,
-        anchor="nw",
-        text="Passive / Agressive :",
-        fill="#E9EE23",
-        font=("Roboto Bold", 18 * -1)
-    )
-
     canvas.create_rectangle(
         26.000000000000014,
-        469.0,
+        285.0,
         379.0,
-        502.0,
+        318.0,
         fill="#000000",
         outline="")
-
-    canvas.create_text(
-        39.934211730957045,
-        475.0,
-        anchor="nw",
-        text="True Level :",
-        fill="#E9EE23",
-        font=("Roboto Bold", 18 * -1)
-    )
-
-    canvas.create_rectangle(
-        26.000000000000014,
-        423.0,
-        379.0,
-        456.0,
-        fill="#000000",
-        outline="")
-
-    canvas.create_text(
-        39.934211730957045,
-        429.0,
-        anchor="nw",
-        text="Level :",
-        fill="#E9EE23",
-        font=("Roboto Bold", 18 * -1)
-    )
-
-    canvas.create_rectangle(
-        26.000000000000014,
-        377.0,
-        379.0,
-        410.0,
-        fill="#000000",
-        outline="")
-
-    canvas.create_text(
-        39.934211730957045,
-        383.0,
-        anchor="nw",
-        text="Main Weapon :",
-        fill="#E9EE23",
-        font=("Roboto Bold", 18 * -1)
-    )
 
     canvas.create_rectangle(
         26.000000000000014,
@@ -279,22 +234,62 @@ def mainFrame():
         fill="#000000",
         outline="")
 
-    canvas.create_text(
-        39.934211730957045,
-        337.0,
-        anchor="nw",
-        text="Main Legend :",
-        fill="#E9EE23",
-        font=("Roboto Bold", 18 * -1)
-    )
+    canvas.create_rectangle(
+        26.000000000000014,
+        377.0,
+        379.0,
+        410.0,
+        fill="#000000",
+        outline="")
 
     canvas.create_rectangle(
         26.000000000000014,
-        285.0,
+        423.0,
         379.0,
-        318.0,
+        456.0,
         fill="#000000",
         outline="")
+
+    canvas.create_rectangle(
+        26.000000000000014,
+        469.0,
+        379.0,
+        502.0,
+        fill="#000000",
+        outline="")
+
+    canvas.create_rectangle(
+        26.000000000000014,
+        515.0,
+        379.0,
+        548.0,
+        fill="#000000",
+        outline="")
+
+    canvas.create_rectangle(
+        26.000000000000014,
+        561.0,
+        379.0,
+        594.0,
+        fill="#000000",
+        outline="")
+
+    canvas.create_rectangle(
+        26.000000000000014,
+        607.0,
+        379.0,
+        640.0,
+        fill="#000000",
+        outline="")
+
+    canvas.create_text(
+        39.934211730957045,
+        245.0,
+        anchor="nw",
+        text="Current Elo :",
+        fill="#E9EE23",
+        font=("Roboto Bold", 18 * -1)
+    )
 
     canvas.create_text(
         39.934211730957045,
@@ -305,13 +300,79 @@ def mainFrame():
         font=("Roboto Bold", 18 * -1)
     )
 
-    canvas.create_rectangle(
-        26.000000000000014,
-        239.0,
-        379.0,
-        272.0,
-        fill="#000000",
-        outline="")
+    canvas.create_text(
+        39.934211730957045,
+        337.0,
+        anchor="nw",
+        text="Main Legend :",
+        fill="#E9EE23",
+        font=("Roboto Bold", 18 * -1)
+    )
+
+    canvas.create_text(
+        39.934211730957045,
+        383.0,
+        anchor="nw",
+        text="Main Weapon :",
+        fill="#E9EE23",
+        font=("Roboto Bold", 18 * -1)
+    )
+
+    canvas.create_text(
+        39.934211730957045,
+        429.0,
+        anchor="nw",
+        text="Level :",
+        fill="#E9EE23",
+        font=("Roboto Bold", 18 * -1)
+    )
+
+    canvas.create_text(
+        39.934211730957045,
+        475.0,
+        anchor="nw",
+        text="True Level :",
+        fill="#E9EE23",
+        font=("Roboto Bold", 18 * -1)
+    )
+
+    canvas.create_text(
+        39.934211730957045,
+        521.0,
+        anchor="nw",
+        text="Most Rated Legend :",
+        fill="#E9EE23",
+        font=("Roboto Bold", 18 * -1)
+    )
+
+    canvas.create_text(
+        39.934211730957045,
+        567.0,
+        anchor="nw",
+        text="Time Played :",
+        fill="#E9EE23",
+        font=("Roboto Bold", 18 * -1)
+    )
+
+    canvas.create_text(
+        39.934211730957045,
+        613.0,
+        anchor="nw",
+        text="Passive / Agressive :",
+        fill="#E9EE23",
+        font=("Roboto Bold", 18 * -1)
+    )
+
+
+
+
+
+
+
+
+
+
+
 
     ratingOpponent = tk.StringVar()
     entry_image_ratingOpponent = tk.PhotoImage(
@@ -353,7 +414,7 @@ def mainFrame():
         bd=0,
         bg="#000000",
         # disabledbackground="#000000",
-        fg="#ffffff",  
+        fg="#ffffff",
         # disabledforeground="#ffffff",
         # state="readonly",
         # state="disabled",
@@ -367,16 +428,16 @@ def mainFrame():
         height=25.0
     )
 
-    mainCharacterOpponent = tk.StringVar()
-    entry_image_mainCharacterOpponent = tk.PhotoImage(
+    mainLevelCharacterOpponent = tk.StringVar()
+    entry_image_mainLevelCharacterOpponent = tk.PhotoImage(
         file=relative_to_assets("entry_3.png"))
-    entry_bg_mainCharacterOpponent = canvas.create_image(
+    entry_bg_mainLevelCharacterOpponent = canvas.create_image(
         241.5,
         344.5,
-        image=entry_image_mainCharacterOpponent
+        image=entry_image_mainLevelCharacterOpponent
     )
-    mainCharacterOpponentEntry = ttk.Entry(
-        textvariable=mainCharacterOpponent,
+    mainLevelCharacterOpponentEntry = ttk.Entry(
+        textvariable=mainLevelCharacterOpponent,
         bd=0,
         bg="#000000",
         # disabledbackground="#000000",
@@ -387,7 +448,7 @@ def mainFrame():
         font=("Calibri", 20),
         highlightthickness=0
     )
-    mainCharacterOpponentEntry.place(
+    mainLevelCharacterOpponentEntry.place(
         x=161.0,
         y=334.0,
         width=161.0,
@@ -474,12 +535,64 @@ def mainFrame():
         height=25.0
     )
 
-    passiveAgressiveOpponent = tk.StringVar()
-    entry_image_passiveAgressiveOpponent = tk.PhotoImage(
-        file=relative_to_assets("entry_7.png"))
-    entry_bg_passiveAgressiveOpponent = canvas.create_image(
+    mainRankedCharacterOpponent = tk.StringVar()
+    entry_image_mainRankedCharacterOpponent = tk.PhotoImage(file=relative_to_assets("entry_7.png"))
+    entry_bg_mainRankedCharacterOpponent = canvas.create_image(
         295.5,
         528.5,
+        image=entry_image_mainRankedCharacterOpponent
+    )
+    mainRankedCharacterOpponentEntry = ttk.Entry(
+        textvariable=mainRankedCharacterOpponent,
+        bd=0,
+        bg="#000000",
+        # disabledbackground="#000000",
+        fg="#ffffff",
+        # disabledforeground="#ffffff",
+        # state="readonly",
+        # state="disabled",
+        font=("Calibri", 20),
+        highlightthickness=0
+    )
+    mainRankedCharacterOpponentEntry.place(
+        x=215.0,
+        y=518.0,
+        width=161.0,
+        height=25.0
+    )
+    
+    timePlayedOpponent = tk.StringVar()
+    entry_image_timePlayedOpponent = tk.PhotoImage(
+    file=relative_to_assets("entry_8.png"))
+    entry_bg_timePlayedOpponent = canvas.create_image(
+    235.5,
+    574.5,
+    image=entry_image_timePlayedOpponent
+    )
+    timePlayedOpponentEntry = ttk.Entry(
+        textvariable=timePlayedOpponent,
+        bd=0,
+        bg="#000000",
+        # disabledbackground="#000000",
+        fg="#ffffff",
+        # disabledforeground="#ffffff",
+        # state="readonly",
+        # state="disabled",
+        font=("Calibri", 20),
+        highlightthickness=0
+    )
+    timePlayedOpponentEntry.place(
+    x=155.0,
+    y=564.0,
+    width=161.0,
+    height=25.0
+    )
+
+    passiveAgressiveOpponent = tk.StringVar()
+    entry_image_passiveAgressiveOpponent = tk.PhotoImage(file=relative_to_assets("entry_9.png"))
+    entry_bg_passiveAgressiveOpponent = canvas.create_image(
+        295.5,
+        620.5,
         image=entry_image_passiveAgressiveOpponent
     )
     passiveAgressiveOpponentEntry = ttk.Entry(
@@ -496,28 +609,36 @@ def mainFrame():
     )
     passiveAgressiveOpponentEntry.place(
         x=215.0,
-        y=518.0,
+        y=610.0,
         width=161.0,
         height=25.0
     )
 
+    canvas.create_rectangle(
+        14.000000000000014,
+        217.0,
+        385.0,
+        223.0,
+        fill="#837171",
+        outline="")
+    
     canvas.create_text(
-        39.934211730957045,
-        245.0,
+        14.000000000000014,
+        171.0,
         anchor="nw",
-        text="Current Elo :",
-        fill="#E9EE23",
-        font=("Roboto Bold", 18 * -1)
+        text="PlayerName",
+        fill="#FFFFFF",
+        font=("Roboto", 36 * -1)
     )
-
+    
     canvas.create_rectangle(
         325.0,
         14.0,
         385.0,
         74.0,
-        fill="#000000",
+        fill="#201B1B",
         outline="")
-
+    
     button_image_1 = tk.PhotoImage(
         file=relative_to_assets("button_1.png"))
     button_1 = tk.Button(
@@ -533,20 +654,12 @@ def mainFrame():
         width=60.0,
         height=60.0
     )
-
+    
     canvas.create_rectangle(
         19.000000000000014,
         18.0,
         169.0,
         161.0,
-        fill="#837171",
-        outline="")
-
-    canvas.create_rectangle(
-        14.000000000000014,
-        217.0,
-        385.0,
-        223.0,
         fill="#837171",
         outline="")
 
