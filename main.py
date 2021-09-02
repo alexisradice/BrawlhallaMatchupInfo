@@ -216,7 +216,8 @@ def mainFrame():
         379.0,
         272.0,
         fill="#000000",
-        outline="")
+        width=2,
+        outline="#847171")
 
     canvas.create_rectangle(
         26.000000000000014,
@@ -224,7 +225,8 @@ def mainFrame():
         379.0,
         318.0,
         fill="#000000",
-        outline="")
+        width=2,
+        outline="#847171")
 
     canvas.create_rectangle(
         26.000000000000014,
@@ -232,7 +234,8 @@ def mainFrame():
         379.0,
         364.0,
         fill="#000000",
-        outline="")
+        width=2,
+        outline="#847171")
 
     canvas.create_rectangle(
         26.000000000000014,
@@ -240,7 +243,8 @@ def mainFrame():
         379.0,
         410.0,
         fill="#000000",
-        outline="")
+        width=2,
+        outline="#847171")
 
     canvas.create_rectangle(
         26.000000000000014,
@@ -248,7 +252,8 @@ def mainFrame():
         379.0,
         456.0,
         fill="#000000",
-        outline="")
+        width=2,
+        outline="#847171")
 
     canvas.create_rectangle(
         26.000000000000014,
@@ -256,7 +261,8 @@ def mainFrame():
         379.0,
         502.0,
         fill="#000000",
-        outline="")
+        width=2,
+        outline="#847171")
 
     canvas.create_rectangle(
         26.000000000000014,
@@ -264,7 +270,8 @@ def mainFrame():
         379.0,
         548.0,
         fill="#000000",
-        outline="")
+        width=2,
+        outline="#847171")
 
     canvas.create_rectangle(
         26.000000000000014,
@@ -272,7 +279,8 @@ def mainFrame():
         379.0,
         594.0,
         fill="#000000",
-        outline="")
+        width=2,
+        outline="#847171")
 
     canvas.create_rectangle(
         26.000000000000014,
@@ -280,87 +288,106 @@ def mainFrame():
         379.0,
         640.0,
         fill="#000000",
-        outline="")
+        width=2,
+        outline="#847171")
 
     canvas.create_text(
-        39.934211730957045,
-        245.0,
+        40.000000000000014,
+        244.0,
         anchor="nw",
         text="Current Elo :",
         fill="#E9EE23",
-        font=("Roboto Bold", 18 * -1)
+        font=("ITCErasStd-Ultra", 18 * -1)
     )
 
     canvas.create_text(
-        39.934211730957045,
-        291.0,
+        40.000000000000014,
+        290.0,
         anchor="nw",
         text="Elo Max :",
         fill="#E9EE23",
-        font=("Roboto Bold", 18 * -1)
+        font=("ITCErasStd-Ultra", 18 * -1)
     )
 
     canvas.create_text(
-        39.934211730957045,
-        337.0,
+        40.000000000000014,
+        336.0,
         anchor="nw",
         text="Main Legend :",
         fill="#E9EE23",
-        font=("Roboto Bold", 18 * -1)
+        font=("ITCErasStd-Ultra", 18 * -1)
     )
 
     canvas.create_text(
-        39.934211730957045,
-        383.0,
+        40.000000000000014,
+        382.0,
         anchor="nw",
         text="Main Weapon :",
         fill="#E9EE23",
-        font=("Roboto Bold", 18 * -1)
+        font=("ITCErasStd-Ultra", 18 * -1)
     )
 
     canvas.create_text(
-        39.934211730957045,
-        429.0,
+        40.000000000000014,
+        428.0,
         anchor="nw",
         text="Level :",
         fill="#E9EE23",
-        font=("Roboto Bold", 18 * -1)
+        font=("ITCErasStd-Ultra", 18 * -1)
     )
 
     canvas.create_text(
-        39.934211730957045,
-        475.0,
+        40.000000000000014,
+        474.0,
         anchor="nw",
         text="True Level :",
         fill="#E9EE23",
-        font=("Roboto Bold", 18 * -1)
+        font=("ITCErasStd-Ultra", 18 * -1)
     )
 
     canvas.create_text(
-        39.934211730957045,
-        521.0,
+        40.000000000000014,
+        514.0,
         anchor="nw",
-        text="Most Rated Legend :",
+        text="Most Rated ",
         fill="#E9EE23",
-        font=("Roboto Bold", 18 * -1)
+        font=("ITCErasStd-Ultra", 18 * -1)
     )
 
     canvas.create_text(
-        39.934211730957045,
-        567.0,
+        40.000000000000014,
+        529.0,
+        anchor="nw",
+        text="Legend :",
+        fill="#E9EE23",
+        font=("ITCErasStd-Ultra", 18 * -1)
+    )
+
+    canvas.create_text(
+        40.000000000000014,
+        566.0,
         anchor="nw",
         text="Time Played :",
         fill="#E9EE23",
-        font=("Roboto Bold", 18 * -1)
+        font=("ITCErasStd-Ultra", 18 * -1)
     )
 
     canvas.create_text(
         39.934211730957045,
-        613.0,
+        605.0,
         anchor="nw",
-        text="Passive / Agressive :",
+        text="Passive / ",
         fill="#E9EE23",
-        font=("Roboto Bold", 18 * -1)
+        font=("ITCErasStd-Ultra", 18 * -1)
+    )
+
+    canvas.create_text(
+        40.000000000000014,
+        619.0,
+        anchor="nw",
+        text="Agressive :",
+        fill="#E9EE23",
+        font=("ITCErasStd-Ultra", 18 * -1)
     )
 
 
@@ -378,8 +405,8 @@ def mainFrame():
     entry_image_ratingOpponent = tk.PhotoImage(
         file=relative_to_assets("entry_1.png"))
     entry_bg_ratingOpponent = canvas.create_image(
-        226.5,
-        252.5,
+        275.0,
+        254.5,
         image=entry_image_ratingOpponent
     )
     ratingOpponentEntry = ttk.Entry(
@@ -391,22 +418,22 @@ def mainFrame():
         # disabledforeground="#ffffff",
         # state="readonly",
         # state="disabled",
-        font=("Calibri", 20),
+        font=("ITCErasStd-Ultra", 18 * -1),
         highlightthickness=0
     )
     ratingOpponentEntry.place(
-        x=146.0,
-        y=242.0,
-        width=161.0,
-        height=25.0
+    x=174.0,
+    y=241.0,
+    width=202.0,
+    height=25.0
     )
 
     peakRatingOpponent = tk.StringVar()
     entry_image_peakRatingOpponent = tk.PhotoImage(
         file=relative_to_assets("entry_2.png"))
     entry_bg_peakRatingOpponent = canvas.create_image(
-        200.5,
-        298.5,
+        259.0,
+        300.5,
         image=entry_image_peakRatingOpponent
     )
     peakRatingOpponentEntry = ttk.Entry(
@@ -418,13 +445,13 @@ def mainFrame():
         # disabledforeground="#ffffff",
         # state="readonly",
         # state="disabled",
-        font=("Calibri", 20),
+        font=("ITCErasStd-Ultra", 18 * -1),
         highlightthickness=0
     )
     peakRatingOpponentEntry.place(
-        x=120.00000000000001,
-        y=288.0,
-        width=161.0,
+        x=142.0,
+        y=287.0,
+        width=234.0,
         height=25.0
     )
 
@@ -432,8 +459,8 @@ def mainFrame():
     entry_image_mainLevelCharacterOpponent = tk.PhotoImage(
         file=relative_to_assets("entry_3.png"))
     entry_bg_mainLevelCharacterOpponent = canvas.create_image(
-        241.5,
-        344.5,
+        281.5,
+        346.5,
         image=entry_image_mainLevelCharacterOpponent
     )
     mainLevelCharacterOpponentEntry = ttk.Entry(
@@ -445,13 +472,13 @@ def mainFrame():
         # disabledforeground="#ffffff",
         # state="readonly",
         # state="disabled",
-        font=("Calibri", 20),
+        font=("ITCErasStd-Ultra", 18 * -1),
         highlightthickness=0
     )
     mainLevelCharacterOpponentEntry.place(
-        x=161.0,
-        y=334.0,
-        width=161.0,
+        x=187.0,
+        y=333.0,
+        width=189.0,
         height=25.0
     )
 
@@ -459,8 +486,8 @@ def mainFrame():
     entry_image_mainWeaponOpponent = tk.PhotoImage(
         file=relative_to_assets("entry_4.png"))
     entry_bg_mainWeaponOpponent = canvas.create_image(
-        247.5,
-        390.5,
+        285.0,
+        392.5,
         image=entry_image_mainWeaponOpponent
     )
     mainWeaponOpponentEntry = ttk.Entry(
@@ -472,21 +499,21 @@ def mainFrame():
         # disabledforeground="#ffffff",
         # state="readonly",
         # state="disabled",
-        font=("Calibri", 20),
+        font=("ITCErasStd-Ultra", 18 * -1),
         highlightthickness=0
     )
     mainWeaponOpponentEntry.place(
-        x=167.0,
-        y=380.0,
-        width=161.0,
+        x=194.0,
+        y=379.0,
+        width=182.0,
         height=25.0
     )
     levelOpponent = tk.StringVar()
     entry_image_levelOpponent = tk.PhotoImage(
         file=relative_to_assets("entry_5.png"))
     entry_bg_levelOpponent = canvas.create_image(
-        180.5,
-        436.5,
+        244.5,
+        438.5,
         image=entry_image_levelOpponent
     )
     levelOpponentEntry = ttk.Entry(
@@ -498,13 +525,13 @@ def mainFrame():
         # disabledforeground="#ffffff",
         # state="readonly",
         # state="disabled",
-        font=("Calibri", 20),
+        font=("ITCErasStd-Ultra", 18 * -1),
         highlightthickness=0
     )
     levelOpponentEntry.place(
-        x=100.00000000000001,
-        y=426.0,
-        width=161.0,
+        x=113.00000000000001,
+        y=425.0,
+        width=263.0,
         height=25.0
     )
 
@@ -512,8 +539,8 @@ def mainFrame():
     entry_image_trueLevelOpponent = tk.PhotoImage(
         file=relative_to_assets("entry_6.png"))
     entry_bg_trueLevelOpponent = canvas.create_image(
-        222.5,
-        482.5,
+        270.0,
+        484.5,
         image=entry_image_trueLevelOpponent
     )
     trueLevelOpponentEntry = ttk.Entry(
@@ -525,21 +552,21 @@ def mainFrame():
         # disabledforeground="#ffffff",
         # state="readonly",
         # state="disabled",
-        font=("Calibri", 20),
+        font=("ITCErasStd-Ultra", 18 * -1),
         highlightthickness=0
     )
     trueLevelOpponentEntry.place(
-        x=142.0,
-        y=472.0,
-        width=161.0,
+        x=164.0,
+        y=471.0,
+        width=212.0,
         height=25.0
     )
 
     mainRankedCharacterOpponent = tk.StringVar()
     entry_image_mainRankedCharacterOpponent = tk.PhotoImage(file=relative_to_assets("entry_7.png"))
     entry_bg_mainRankedCharacterOpponent = canvas.create_image(
-        295.5,
-        528.5,
+        270.0,
+        530.5,
         image=entry_image_mainRankedCharacterOpponent
     )
     mainRankedCharacterOpponentEntry = ttk.Entry(
@@ -551,13 +578,13 @@ def mainFrame():
         # disabledforeground="#ffffff",
         # state="readonly",
         # state="disabled",
-        font=("Calibri", 20),
+        font=("ITCErasStd-Ultra", 18 * -1),
         highlightthickness=0
     )
     mainRankedCharacterOpponentEntry.place(
-        x=215.0,
-        y=518.0,
-        width=161.0,
+        x=164.0,
+        y=517.0,
+        width=212.0,
         height=25.0
     )
     
@@ -565,8 +592,8 @@ def mainFrame():
     entry_image_timePlayedOpponent = tk.PhotoImage(
     file=relative_to_assets("entry_8.png"))
     entry_bg_timePlayedOpponent = canvas.create_image(
-    235.5,
-    574.5,
+        278.0,
+        576.5,
     image=entry_image_timePlayedOpponent
     )
     timePlayedOpponentEntry = ttk.Entry(
@@ -578,21 +605,21 @@ def mainFrame():
         # disabledforeground="#ffffff",
         # state="readonly",
         # state="disabled",
-        font=("Calibri", 20),
+        font=("ITCErasStd-Ultra", 18 * -1),
         highlightthickness=0
     )
     timePlayedOpponentEntry.place(
-    x=155.0,
-    y=564.0,
-    width=161.0,
-    height=25.0
+        x=180.0,
+        y=563.0,
+        width=196.0,
+        height=25.0
     )
 
     passiveAgressiveOpponent = tk.StringVar()
     entry_image_passiveAgressiveOpponent = tk.PhotoImage(file=relative_to_assets("entry_9.png"))
     entry_bg_passiveAgressiveOpponent = canvas.create_image(
-        295.5,
-        620.5,
+        265.0,
+        622.5,
         image=entry_image_passiveAgressiveOpponent
     )
     passiveAgressiveOpponentEntry = ttk.Entry(
@@ -604,15 +631,24 @@ def mainFrame():
         # disabledforeground="#ffffff",
         # state="readonly",
         # state="disabled",
-        font=("Calibri", 20),
+        font=("ITCErasStd-Ultra", 18 * -1),
         highlightthickness=0
     )
     passiveAgressiveOpponentEntry.place(
-        x=215.0,
-        y=610.0,
-        width=161.0,
+        x=154.0,
+        y=609.0,
+        width=222.0,
         height=25.0
     )
+
+
+
+
+
+
+
+
+
 
     canvas.create_rectangle(
         14.000000000000014,
@@ -620,25 +656,25 @@ def mainFrame():
         385.0,
         223.0,
         fill="#837171",
-        outline="")
-    
+        outline="#847171")
+
     canvas.create_text(
         14.000000000000014,
         171.0,
         anchor="nw",
         text="PlayerName",
         fill="#FFFFFF",
-        font=("Roboto", 36 * -1)
+        font=("ITCErasStd-Ultra", 36 * -1)
     )
-    
+
     canvas.create_rectangle(
         325.0,
         14.0,
         385.0,
         74.0,
         fill="#201B1B",
-        outline="")
-    
+        outline="#847171")
+
     button_image_1 = tk.PhotoImage(
         file=relative_to_assets("button_1.png"))
     button_1 = tk.Button(
@@ -654,14 +690,14 @@ def mainFrame():
         width=60.0,
         height=60.0
     )
-    
+
     canvas.create_rectangle(
         19.000000000000014,
         18.0,
         169.0,
         161.0,
         fill="#837171",
-        outline="")
+        outline="#847171")
 
     window.resizable(False, False)
 
@@ -669,6 +705,17 @@ def mainFrame():
     window.mainloop()
     global end
     end = True
+
+
+
+
+
+
+
+
+
+
+
 
 q = Queue()
 t = Thread(target=detect_brawlhalla, args=(q,))
@@ -686,20 +733,96 @@ def validateBrawlID():
 
 
 root = tk.Tk()
-root.title('Brawlhalla Matchup Infos')
-root.geometry("300x100")
+root.title('Brawlhalla Matchup Infos v1')
+root.geometry("410x150")
 
-frame = ttk.Frame(root)
-frame.pack()
+# frame = ttk.Frame(root)
+# frame.pack()
 
-characterPlayer = tk.StringVar()
-brawlIDLabel = ttk.Label(frame, width = 20, text = 'Enter your Brawlhalla ID : ')
-brawlIDLabel.grid(column = 0, row = 0)
+canvas = tk.Canvas(
+    root,
+    bg = "#201B1B",
+    height = 150,
+    width = 410,
+    bd = 0,
+    highlightthickness = 0,
+    relief = "ridge"
+)
+
 brawlID = tk.StringVar()
-brawlIDEntry = ttk.Entry(frame, width = 20, textvariable = brawlID)
-brawlIDEntry.grid(column = 0, row = 1)
-validateButton = ttk.Button(frame, width = 20, text = 'Validate', command = validateBrawlID)
-validateButton.grid(column = 0, row = 2)
+canvas.place(x = 0, y = 0)
+entry_image_brawlID = tk.PhotoImage(
+    file=relative_to_assets("entry_0.png"))
+entry_bg_brawlID = canvas.create_image(
+    205.0,
+    75.5,
+    image=entry_image_brawlID
+)
+brawlIDEntry = ttk.Entry(
+    textvariable = brawlID,
+    bd=0,
+    bg="#000000",
+    # disabledbackground="#000000",
+    fg="#ffffff",
+    # disabledforeground="#ffffff",
+    # state="readonly",
+    # state="disabled",
+    font=("ITCErasStd-Ultra", 40 * -1),
+    justify='center',
+    highlightthickness=0
+)
+brawlIDEntry.place(
+    x=67.0,
+    y=55.0,
+    width=276.0,
+    height=43.0
+)
 
+canvas.create_rectangle(
+    155.0,
+    114.0,
+    255.0,
+    140.0,
+    fill="#201B1B",
+    outline="")
+
+
+button_1 = tk.Button(
+    # image=button_image_0,
+    borderwidth=0,
+    highlightthickness=0,
+    command = validateBrawlID,
+    relief="flat",
+    text = "Validate",
+    font=("ITCErasStd-Ultra", 24 * -1)
+)
+button_1.place(
+    x=150.0,
+    y=114.0,
+    width=110.0,
+    height=26.0
+)
+
+canvas.create_text(
+    31.999999999999996,
+    14.0,
+    anchor="nw",
+    text="Enter your Brawlhalla ID :",
+    fill="#FFFFFF",
+    font=("ITCErasStd-Ultra", 24 * -1)
+)
+root.resizable(False, False)
 root.mainloop()
+
+
+# characterPlayer = tk.StringVar()
+# brawlIDLabel = ttk.Label(frame, width = 20, text = 'Enter your Brawlhalla ID : ')
+# brawlIDLabel.grid(column = 0, row = 0)
+# brawlID = tk.StringVar()
+# brawlIDEntry = ttk.Entry(frame, width = 20, textvariable = brawlID)
+# brawlIDEntry.grid(column = 0, row = 1)
+# validateButton = ttk.Button(frame, width = 20, text = 'Validate', command = validateBrawlID)
+# validateButton.grid(column = 0, row = 2)
+
+# root.mainloop()
 
