@@ -2,7 +2,6 @@ import tkinter as tk
 import tkinter as ttk
 from queue import Queue
 from threading import Thread
-# from main import detect_brawlhalla
 import requests
 from pathlib import Path
 import os
@@ -14,6 +13,34 @@ import easyocr
 from io import BytesIO
 from PIL import ImageTk, Image
 import urllib.request
+
+playerNameClient = ""
+levelClient = 0
+ratingClient = 0
+peakRatingClient = 0
+mainLevelCharacterClient = ""
+mainRankedCharacterClient = ""
+pictureMainRankedCharacterClient = ""
+mainWeaponClient = ""
+trueLevelClient = 0
+passiveAgressiveClient = ""
+timePlayedClient = ""
+
+playerNameOpponent = ""
+levelOpponent = 0
+ratingOpponent = 0
+peakRatingOpponent = 0
+mainLevelCharacterOpponent = ""
+mainRankedCharacterOpponent = ""
+pictureMainRankedCharacterOpponent = ""
+mainWeaponOpponent = ""
+trueLevelOpponent = 0
+passiveAgressiveOpponent = ""
+timePlayedOpponent = ""
+
+
+firstLaunch = True
+switchProfileBool = False
 
 
 OUTPUT_PATH = Path(__file__).parent
@@ -37,8 +64,8 @@ def ocr_core(img):
 def get_greyscale(image):
     return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-global URL
-URL = "http://localhost:8080/api/brawl/legends/ada"
+
+
 end = False
 
 def detect_brawlhalla(queue=None):
@@ -118,7 +145,200 @@ def detect_brawlhalla(queue=None):
 
 brawlIdClient = 0
 
+
+
+
 def mainFrame():
+
+
+    def switchProfile(origin):
+
+        global switchProfileBool
+
+        if (origin == "client"):
+            switchProfileBool = True
+        
+        elif (origin == "opponent"):
+            switchProfileBool = False
+        
+        elif (origin == "command"):
+            if (playerNamePlayerLabel.cget("text") == playerNameClient):
+                switchProfileBool = False
+            else:
+                switchProfileBool = True
+            print(playerNamePlayerLabel.cget("text"), playerNameClient)
+
+
+
+        if (switchProfileBool == True):
+            try:
+                URL = "http://" + pictureMainRankedCharacterClient.split()[0] + "_" + pictureMainRankedCharacterClient.split()[1]
+            except:
+                URL = "http://" + pictureMainRankedCharacterClient
+
+            print(URL)
+
+            u = urllib.request.urlopen(URL)
+            raw_data = u.read()
+            u.close()
+
+            im = Image.open(BytesIO(raw_data))
+            im = im.resize((150,150),Image.ANTIALIAS)
+            photo = ImageTk.PhotoImage(im)
+            picture["image"] = photo
+            picture.image = photo
+
+
+
+            playerNamePlayerLabel["text"] = playerNameClient
+
+            levelPlayerEntry["state"] = "normal"
+            levelPlayerEntry.delete(0, tk.END)
+            levelPlayerEntry.insert(0, levelClient)
+            levelPlayerEntry["state"] = "disabled"
+
+            ratingPlayerEntry["state"] = "normal"
+            ratingPlayerEntry.delete(0, tk.END)
+            ratingPlayerEntry.insert(0, ratingClient)
+            ratingPlayerEntry["state"] = "disabled"
+
+            peakRatingPlayerEntry["state"] = "normal"
+            peakRatingPlayerEntry.delete(0, tk.END)
+            peakRatingPlayerEntry.insert(0, peakRatingClient)
+            peakRatingPlayerEntry["state"] = "disabled"
+
+            mainLevelCharacterPlayerEntry["state"] = "normal"
+            mainLevelCharacterPlayerEntry.delete(0, tk.END)
+            mainLevelCharacterPlayerEntry.insert(0, mainLevelCharacterClient)
+            mainLevelCharacterPlayerEntry["state"] = "disabled"
+
+            mainRankedCharacterPlayerEntry["state"] = "normal"
+            mainRankedCharacterPlayerEntry.delete(0, tk.END)
+            mainRankedCharacterPlayerEntry.insert(0, mainRankedCharacterClient)
+            mainRankedCharacterPlayerEntry["state"] = "disabled"
+
+            mainWeaponPlayerEntry["state"] = "normal"
+            mainWeaponPlayerEntry.delete(0, tk.END)
+            mainWeaponPlayerEntry.insert(0, mainWeaponClient)
+            mainWeaponPlayerEntry["state"] = "disabled"
+
+            trueLevelPlayerEntry["state"] = "normal"
+            trueLevelPlayerEntry.delete(0, tk.END)
+            trueLevelPlayerEntry.insert(0, trueLevelClient)
+            trueLevelPlayerEntry["state"] = "disabled"
+
+            passiveAgressivePlayerEntry["state"] = "normal"
+            passiveAgressivePlayerEntry.delete(0, tk.END)
+            passiveAgressivePlayerEntry.insert(0, passiveAgressiveClient)
+            passiveAgressivePlayerEntry["state"] = "disabled"
+
+            timePlayedPlayerEntry["state"] = "normal"
+            timePlayedPlayerEntry.delete(0, tk.END)
+            timePlayedPlayerEntry.insert(0, timePlayedClient)
+            timePlayedPlayerEntry["state"] = "disabled"
+
+
+
+        else:
+            try:
+                URL = "http://" + pictureMainRankedCharacterOpponent.split()[0] + "_" + pictureMainRankedCharacterOpponent.split()[1]
+            except:
+                URL = "http://" + pictureMainRankedCharacterOpponent
+
+
+            u = urllib.request.urlopen(URL)
+            raw_data = u.read()
+            u.close()
+
+            im = Image.open(BytesIO(raw_data))
+            im = im.resize((150,150),Image.ANTIALIAS)
+            photo = ImageTk.PhotoImage(im)
+            picture["image"] = photo
+            picture.image = photo
+
+
+            playerNamePlayerLabel["text"] = playerNameOpponent
+
+            levelPlayerEntry["state"] = "normal"
+            levelPlayerEntry.delete(0, tk.END)
+            levelPlayerEntry.insert(0, levelOpponent)
+            levelPlayerEntry["state"] = "disabled"
+
+            ratingPlayerEntry["state"] = "normal"
+            ratingPlayerEntry.delete(0, tk.END)
+            ratingPlayerEntry.insert(0, ratingOpponent)
+            ratingPlayerEntry["state"] = "disabled"
+
+            peakRatingPlayerEntry["state"] = "normal"
+            peakRatingPlayerEntry.delete(0, tk.END)
+            peakRatingPlayerEntry.insert(0, peakRatingOpponent)
+            peakRatingPlayerEntry["state"] = "disabled"
+
+            mainLevelCharacterPlayerEntry["state"] = "normal"
+            mainLevelCharacterPlayerEntry.delete(0, tk.END)
+            mainLevelCharacterPlayerEntry.insert(0, mainLevelCharacterOpponent)
+            mainLevelCharacterPlayerEntry["state"] = "disabled"
+
+            mainRankedCharacterPlayerEntry["state"] = "normal"
+            mainRankedCharacterPlayerEntry.delete(0, tk.END)
+            mainRankedCharacterPlayerEntry.insert(0, mainRankedCharacterOpponent)
+            mainRankedCharacterPlayerEntry["state"] = "disabled"
+
+            mainWeaponPlayerEntry["state"] = "normal"
+            mainWeaponPlayerEntry.delete(0, tk.END)
+            mainWeaponPlayerEntry.insert(0, mainWeaponOpponent)
+            mainWeaponPlayerEntry["state"] = "disabled"
+
+            trueLevelPlayerEntry["state"] = "normal"
+            trueLevelPlayerEntry.delete(0, tk.END)
+            trueLevelPlayerEntry.insert(0, trueLevelOpponent)
+            trueLevelPlayerEntry["state"] = "disabled"
+
+            passiveAgressivePlayerEntry["state"] = "normal"
+            passiveAgressivePlayerEntry.delete(0, tk.END)
+            passiveAgressivePlayerEntry.insert(0, passiveAgressiveOpponent)
+            passiveAgressivePlayerEntry["state"] = "disabled"
+
+            timePlayedPlayerEntry["state"] = "normal"
+            timePlayedPlayerEntry.delete(0, tk.END)
+            timePlayedPlayerEntry.insert(0, timePlayedOpponent)
+            timePlayedPlayerEntry["state"] = "disabled"
+
+
+
+    def clientInfos():
+
+        linkAPI = "http://localhost:8080/api/brawl/client/{}".format(brawlIdClient)
+        print(brawlIdClient)
+        response = requests.get(linkAPI)
+        apiResult = response.json()
+
+        global playerNameClient
+        playerNameClient = apiResult['statsClientJSON']['name']
+        global levelClient
+        levelClient = apiResult['statsClientJSON']['level']
+        global ratingClient
+        ratingClient = apiResult['rankedClientJSON']['rating']
+        global peakRatingClient
+        peakRatingClient = apiResult['rankedClientJSON']['peak_rating']
+        global mainLevelCharacterClient
+        mainLevelCharacterClient = apiResult['miscClientJSON']['mainLevelCharacter']
+        global mainRankedCharacterClient
+        mainRankedCharacterClient = apiResult['miscClientJSON']['mainRankedCharacter']
+        global pictureMainRankedCharacterClient
+        pictureMainRankedCharacterClient = apiResult['miscClientJSON']['pictureMainRankedCharacter']
+        global mainWeaponClient
+        mainWeaponClient = apiResult['miscClientJSON']['mainWeapon']
+        global trueLevelClient
+        trueLevelClient = apiResult['miscClientJSON']['trueLevel']
+        global passiveAgressiveClient
+        passiveAgressiveClient = apiResult['miscClientJSON']['passiveAgressive']
+        global timePlayedClient
+        timePlayedClient = apiResult['miscClientJSON']['timePlayed']
+
+        switchProfile("client")
+
+
 
     def infosBrawlRecuperation():
 
@@ -138,75 +358,34 @@ def mainFrame():
                 response = requests.get(linkAPI)
                 apiResult = response.json()
 
+                global playerNameOpponent
                 playerNameOpponent = apiResult['statsOpponentJSON']['name']
+                global levelOpponent
                 levelOpponent = apiResult['statsOpponentJSON']['level']
+                global ratingOpponent
                 ratingOpponent = apiResult['infosOpponentJSON']['rating']
+                global peakRatingOpponent
                 peakRatingOpponent = apiResult['infosOpponentJSON']['peak_rating']
+                global mainLevelCharacterOpponent
                 mainLevelCharacterOpponent = apiResult['miscOpponentJSON']['mainLevelCharacter']
+                global mainRankedCharacterOpponent
                 mainRankedCharacterOpponent = apiResult['miscOpponentJSON']['mainRankedCharacter']
+                global pictureMainRankedCharacterOpponent
                 pictureMainRankedCharacterOpponent = apiResult['miscOpponentJSON']['pictureMainRankedCharacter']
+                global mainWeaponOpponent
                 mainWeaponOpponent = apiResult['miscOpponentJSON']['mainWeapon']
+                global trueLevelOpponent
                 trueLevelOpponent = apiResult['miscOpponentJSON']['trueLevel']
+                global passiveAgressiveOpponent
                 passiveAgressiveOpponent = apiResult['miscOpponentJSON']['passiveAgressive']
+                global timePlayedOpponent
                 timePlayedOpponent = apiResult['miscOpponentJSON']['timePlayed']
 
-                levelClient = apiResult['statsClientJSON']['level']
-                ratingClient = apiResult['rankedClientJSON']['rating']
-                peakRatingClient = apiResult['rankedClientJSON']['peak_rating']
-                mainLevelCharacterClient = apiResult['miscClientJSON']['mainLevelCharacter']
-                mainRankedCharacterClient = apiResult['miscClientJSON']['mainRankedCharacter']
-                pictureMainRankedCharacter = apiResult['miscClientJSON']['pictureMainRankedCharacter']
-                mainWeaponClient = apiResult['miscClientJSON']['mainWeapon']
-                trueLevelClient = apiResult['miscClientJSON']['trueLevel']
-                passiveAgressiveClient = apiResult['miscClientJSON']['passiveAgressive']
-                timePlayedClient = apiResult['miscClientJSON']['timePlayed']
+                global switchProfileBool
+                switchProfileBool = False
 
+                switchProfile("opponent")
                 
-                
-                URL = "http://"+pictureMainRankedCharacterOpponent
-                # URL = "http://localhost:8080/api/brawl/legends/teros"
-                u = urllib.request.urlopen(URL)
-                raw_data = u.read()
-                u.close()
-
-                im = Image.open(BytesIO(raw_data))
-                im = im.resize((150,150),Image.ANTIALIAS)
-                photo = ImageTk.PhotoImage(im)
-                button["image"] = photo
-                button.image = photo
-
-
-                playerNameOpponentLabel["text"] = playerNameOpponent
-
-                levelOpponentEntry.delete(0, tk.END)
-                levelOpponentEntry.insert(0, levelOpponent)
-
-                ratingOpponentEntry.delete(0, tk.END)
-                ratingOpponentEntry.insert(0, ratingOpponent)
-
-                peakRatingOpponentEntry.delete(0, tk.END)
-                peakRatingOpponentEntry.insert(0, peakRatingOpponent)
-
-                mainLevelCharacterOpponentEntry.delete(0, tk.END)
-                mainLevelCharacterOpponentEntry.insert(0, mainLevelCharacterOpponent)
-
-                mainRankedCharacterOpponentEntry.delete(0, tk.END)
-                mainRankedCharacterOpponentEntry.insert(0, mainRankedCharacterOpponent)
-
-                # pictureMainRankedCharacterOpponentEntry.delete(0, tk.END)
-                # pictureMainRankedCharacterOpponentEntry.insert(0, pictureMainRankedCharacterOpponent)
-
-                mainWeaponOpponentEntry.delete(0, tk.END)
-                mainWeaponOpponentEntry.insert(0, mainWeaponOpponent)
-
-                trueLevelOpponentEntry.delete(0, tk.END)
-                trueLevelOpponentEntry.insert(0, trueLevelOpponent)
-
-                passiveAgressiveOpponentEntry.delete(0, tk.END)
-                passiveAgressiveOpponentEntry.insert(0, passiveAgressiveOpponent)
-
-                timePlayedOpponentEntry.delete(0, tk.END)
-                timePlayedOpponentEntry.insert(0, timePlayedOpponent)
 
             except Exception as e:
                 print(e)
@@ -219,21 +398,6 @@ def mainFrame():
     window.geometry("405x660")
     window.title("Brawlhalla Matchup Infos v1")
     window.configure(bg="#1F1A1A")
-
-    # FontOfEntryList = tk.font.Font(family="Calibri", size=12)
-
-    # URL = "http://localhost:8080/api/brawl/legends/ada"
-    # u = urllib.request.urlopen(URL)
-    # raw_data = u.read()
-    # u.close()
-
-    # im = Image.open(BytesIO(raw_data))
-    # im = im.resize((10000,10000),Image.ANTIALIAS)
-    # photo = ImageTk.PhotoImage(im)
-
-    # button = tk.Button(image=photo,width=100,height=100,compound="c")
-    # button.image = photo
-    # button.pack()
 
 
     canvas = tk.Canvas(
@@ -433,255 +597,245 @@ def mainFrame():
 
 
     #image=photo,
-    button = tk.Label(image="", compound="c",bg="#847171" )
-    # button.image = photo
-    button.place(
+    picture = tk.Label(image="", compound="c",bg="#000000" )
+    # picture.image = photo
+    picture.place(
     x=15.0,
     y=15.0,
     width=154,
     height=154
     )
-    # button.pack()
 
 
 
 
 
 
-    ratingOpponent = tk.StringVar()
-    entry_image_ratingOpponent = tk.PhotoImage(
+    ratingPlayer = tk.StringVar()
+    entry_image_ratingPlayer = tk.PhotoImage(
         file=relative_to_assets("entry_1.png"))
-    entry_bg_ratingOpponent = canvas.create_image(
+    entry_bg_ratingPlayer = canvas.create_image(
         275.0,
         254.5,
-        image=entry_image_ratingOpponent
+        image=entry_image_ratingPlayer
     )
-    ratingOpponentEntry = ttk.Entry(
-        textvariable=ratingOpponent,
+    ratingPlayerEntry = ttk.Entry(
+        textvariable=ratingPlayer,
         bd=0,
         bg="#000000",
-        # disabledbackground="#000000",
+        disabledbackground="#000000",
         fg="#ffffff",
-        # disabledforeground="#ffffff",
-        # state="readonly",
-        # state="disabled",
+        disabledforeground="#ffffff",
+        state="disabled",
         font=("ITCErasStd-Ultra", 20 * -1),
         highlightthickness=0
     )
-    ratingOpponentEntry.place(
+    ratingPlayerEntry.place(
     x=174.0,
     y=241.0,
     width=202.0,
     height=25.0
     )
 
-    peakRatingOpponent = tk.StringVar()
-    entry_image_peakRatingOpponent = tk.PhotoImage(
+    peakRatingPlayer = tk.StringVar()
+    entry_image_peakRatingPlayer = tk.PhotoImage(
         file=relative_to_assets("entry_2.png"))
-    entry_bg_peakRatingOpponent = canvas.create_image(
+    entry_bg_peakRatingPlayer = canvas.create_image(
         259.0,
         300.5,
-        image=entry_image_peakRatingOpponent
+        image=entry_image_peakRatingPlayer
     )
-    peakRatingOpponentEntry = ttk.Entry(
-        textvariable=peakRatingOpponent,
+    peakRatingPlayerEntry = ttk.Entry(
+        textvariable=peakRatingPlayer,
         bd=0,
         bg="#000000",
-        # disabledbackground="#000000",
+        disabledbackground="#000000",
         fg="#ffffff",
-        # disabledforeground="#ffffff",
-        # state="readonly",
-        # state="disabled",
+        disabledforeground="#ffffff",
+        state="disabled",
         font=("ITCErasStd-Ultra", 20 * -1),
         highlightthickness=0
     )
-    peakRatingOpponentEntry.place(
+    peakRatingPlayerEntry.place(
         x=142.0,
         y=287.0,
         width=234.0,
         height=25.0
     )
 
-    mainLevelCharacterOpponent = tk.StringVar()
-    entry_image_mainLevelCharacterOpponent = tk.PhotoImage(
+    mainLevelCharacterPlayer = tk.StringVar()
+    entry_image_mainLevelCharacterPlayer = tk.PhotoImage(
         file=relative_to_assets("entry_3.png"))
-    entry_bg_mainLevelCharacterOpponent = canvas.create_image(
+    entry_bg_mainLevelCharacterPlayer = canvas.create_image(
         281.5,
         346.5,
-        image=entry_image_mainLevelCharacterOpponent
+        image=entry_image_mainLevelCharacterPlayer
     )
-    mainLevelCharacterOpponentEntry = ttk.Entry(
-        textvariable=mainLevelCharacterOpponent,
+    mainLevelCharacterPlayerEntry = ttk.Entry(
+        textvariable=mainLevelCharacterPlayer,
         bd=0,
         bg="#000000",
-        # disabledbackground="#000000",
+        disabledbackground="#000000",
         fg="#ffffff",
-        # disabledforeground="#ffffff",
-        # state="readonly",
-        # state="disabled",
+        disabledforeground="#ffffff",
+        state="disabled",
         font=("ITCErasStd-Ultra", 20 * -1),
         highlightthickness=0
     )
-    mainLevelCharacterOpponentEntry.place(
+    mainLevelCharacterPlayerEntry.place(
         x=187.0,
         y=333.0,
         width=189.0,
         height=25.0
     )
 
-    mainWeaponOpponent = tk.StringVar()
-    entry_image_mainWeaponOpponent = tk.PhotoImage(
+    mainWeaponPlayer = tk.StringVar()
+    entry_image_mainWeaponPlayer = tk.PhotoImage(
         file=relative_to_assets("entry_4.png"))
-    entry_bg_mainWeaponOpponent = canvas.create_image(
+    entry_bg_mainWeaponPlayer = canvas.create_image(
         285.0,
         392.5,
-        image=entry_image_mainWeaponOpponent
+        image=entry_image_mainWeaponPlayer
     )
-    mainWeaponOpponentEntry = ttk.Entry(
-        textvariable=mainWeaponOpponent,
+    mainWeaponPlayerEntry = ttk.Entry(
+        textvariable=mainWeaponPlayer,
         bd=0,
         bg="#000000",
-        # disabledbackground="#000000",
+        disabledbackground="#000000",
         fg="#ffffff",
-        # disabledforeground="#ffffff",
-        # state="readonly",
-        # state="disabled",
+        disabledforeground="#ffffff",
+        state="disabled",
         font=("ITCErasStd-Ultra", 20 * -1),
         highlightthickness=0
     )
-    mainWeaponOpponentEntry.place(
+    mainWeaponPlayerEntry.place(
         x=194.0,
         y=379.0,
         width=182.0,
         height=25.0
     )
-    levelOpponent = tk.StringVar()
-    entry_image_levelOpponent = tk.PhotoImage(
+    levelPlayer = tk.StringVar()
+    entry_image_levelPlayer = tk.PhotoImage(
         file=relative_to_assets("entry_5.png"))
-    entry_bg_levelOpponent = canvas.create_image(
+    entry_bg_levelPlayer = canvas.create_image(
         244.5,
         438.5,
-        image=entry_image_levelOpponent
+        image=entry_image_levelPlayer
     )
-    levelOpponentEntry = ttk.Entry(
-        textvariable=levelOpponent,
+    levelPlayerEntry = ttk.Entry(
+        textvariable=levelPlayer,
         bd=0,
         bg="#000000",
-        # disabledbackground="#000000",
+        disabledbackground="#000000",
         fg="#ffffff",
-        # disabledforeground="#ffffff",
-        # state="readonly",
-        # state="disabled",
+        disabledforeground="#ffffff",
+        state="disabled",
         font=("ITCErasStd-Ultra", 20 * -1),
         highlightthickness=0
     )
-    levelOpponentEntry.place(
+    levelPlayerEntry.place(
         x=113.00000000000001,
         y=425.0,
         width=263.0,
         height=25.0
     )
 
-    trueLevelOpponent = tk.StringVar()
-    entry_image_trueLevelOpponent = tk.PhotoImage(
+    trueLevelPlayer = tk.StringVar()
+    entry_image_trueLevelPlayer = tk.PhotoImage(
         file=relative_to_assets("entry_6.png"))
-    entry_bg_trueLevelOpponent = canvas.create_image(
+    entry_bg_trueLevelPlayer = canvas.create_image(
         270.0,
         484.5,
-        image=entry_image_trueLevelOpponent
+        image=entry_image_trueLevelPlayer
     )
-    trueLevelOpponentEntry = ttk.Entry(
-        textvariable=trueLevelOpponent,
+    trueLevelPlayerEntry = ttk.Entry(
+        textvariable=trueLevelPlayer,
         bd=0,
         bg="#000000",
-        # disabledbackground="#000000",
+        disabledbackground="#000000",
         fg="#ffffff",
-        # disabledforeground="#ffffff",
-        # state="readonly",
-        # state="disabled",
+        disabledforeground="#ffffff",
+        state="disabled",
         font=("ITCErasStd-Ultra", 20 * -1),
         highlightthickness=0
     )
-    trueLevelOpponentEntry.place(
+    trueLevelPlayerEntry.place(
         x=164.0,
         y=471.0,
         width=212.0,
         height=25.0
     )
 
-    mainRankedCharacterOpponent = tk.StringVar()
-    entry_image_mainRankedCharacterOpponent = tk.PhotoImage(file=relative_to_assets("entry_7.png"))
-    entry_bg_mainRankedCharacterOpponent = canvas.create_image(
+    mainRankedCharacterPlayer = tk.StringVar()
+    entry_image_mainRankedCharacterPlayer = tk.PhotoImage(file=relative_to_assets("entry_7.png"))
+    entry_bg_mainRankedCharacterPlayer = canvas.create_image(
         270.0,
         530.5,
-        image=entry_image_mainRankedCharacterOpponent
+        image=entry_image_mainRankedCharacterPlayer
     )
-    mainRankedCharacterOpponentEntry = ttk.Entry(
-        textvariable=mainRankedCharacterOpponent,
+    mainRankedCharacterPlayerEntry = ttk.Entry(
+        textvariable=mainRankedCharacterPlayer,
         bd=0,
         bg="#000000",
-        # disabledbackground="#000000",
+        disabledbackground="#000000",
         fg="#ffffff",
-        # disabledforeground="#ffffff",
-        # state="readonly",
-        # state="disabled",
+        disabledforeground="#ffffff",
+        state="disabled",
         font=("ITCErasStd-Ultra", 20 * -1),
         highlightthickness=0
     )
-    mainRankedCharacterOpponentEntry.place(
+    mainRankedCharacterPlayerEntry.place(
         x=164.0,
         y=517.0,
         width=212.0,
         height=25.0
     )
     
-    timePlayedOpponent = tk.StringVar()
-    entry_image_timePlayedOpponent = tk.PhotoImage(
+    timePlayedPlayer = tk.StringVar()
+    entry_image_timePlayedPlayer = tk.PhotoImage(
     file=relative_to_assets("entry_8.png"))
-    entry_bg_timePlayedOpponent = canvas.create_image(
+    entry_bg_timePlayedPlayer = canvas.create_image(
         278.0,
         576.5,
-    image=entry_image_timePlayedOpponent
+    image=entry_image_timePlayedPlayer
     )
-    timePlayedOpponentEntry = ttk.Entry(
-        textvariable=timePlayedOpponent,
+    timePlayedPlayerEntry = ttk.Entry(
+        textvariable=timePlayedPlayer,
         bd=0,
         bg="#000000",
-        # disabledbackground="#000000",
+        disabledbackground="#000000",
         fg="#ffffff",
-        # disabledforeground="#ffffff",
-        # state="readonly",
-        # state="disabled",
+        disabledforeground="#ffffff",
+        state="disabled",
         font=("ITCErasStd-Ultra", 20 * -1),
         highlightthickness=0
     )
-    timePlayedOpponentEntry.place(
+    timePlayedPlayerEntry.place(
         x=180.0,
         y=563.0,
         width=196.0,
         height=25.0
     )
 
-    passiveAgressiveOpponent = tk.StringVar()
-    entry_image_passiveAgressiveOpponent = tk.PhotoImage(file=relative_to_assets("entry_9.png"))
-    entry_bg_passiveAgressiveOpponent = canvas.create_image(
+    passiveAgressivePlayer = tk.StringVar()
+    entry_image_passiveAgressivePlayer = tk.PhotoImage(file=relative_to_assets("entry_9.png"))
+    entry_bg_passiveAgressivePlayer = canvas.create_image(
         265.0,
         622.5,
-        image=entry_image_passiveAgressiveOpponent
+        image=entry_image_passiveAgressivePlayer
     )
-    passiveAgressiveOpponentEntry = ttk.Entry(
-        textvariable=passiveAgressiveOpponent,
+    passiveAgressivePlayerEntry = ttk.Entry(
+        textvariable=passiveAgressivePlayer,
         bd=0,
         bg="#000000",
-        # disabledbackground="#000000",
+        disabledbackground="#000000",
         fg="#ffffff",
-        # disabledforeground="#ffffff",
-        # state="readonly",
-        # state="disabled",
+        disabledforeground="#ffffff",
+        state="disabled",
         font=("ITCErasStd-Ultra", 20 * -1),
         highlightthickness=0
     )
-    passiveAgressiveOpponentEntry.place(
+    passiveAgressivePlayerEntry.place(
         x=154.0,
         y=609.0,
         width=222.0,
@@ -705,75 +859,41 @@ def mainFrame():
         fill="#837171",
         outline="#847171")
 
-    # canvas.create_text(
-    #     14.000000000000014,
-    #     171.0,
-    #     anchor="nw",
-    #     text="PlayerName",
-    #     fill="#FFFFFF",
-    #     font=("ITCErasStd-Ultra", 36 * -1)
-    # )
 
-    # label = tk.Label(gui, textvariable=var, relief=RAISED)
-    # playerNameOpponent = tk.StringVar()
-    # playerNameOpponent.set("Bonjour le monde")
-    playerNameOpponentLabel = tk.Label(
-        # textvariable=playerNameOpponent,
+    playerNamePlayerLabel = tk.Label(
         text = "PlayerName",
         bd=0,
         bg="#1F1A1A",
-        # disabledbackground="#000000",
         fg="#ffffff",
-        # disabledforeground="#ffffff",
-        # state="readonly",
-        # state="disabled",
         font=("ITCErasStd-Ultra", 36 * -1),
         anchor="w"
-        # highlightthickness=0,
-        # relief=RAISED
     )
-    playerNameOpponentLabel.place(
+    playerNamePlayerLabel.place(
         x=14.000000000000014,
         y=173.0,
         width=350.0,
         height=40.0
     )
-    # playerNameOpponentLabel.pack()
 
-    # playerNameOpponentLabel.create_rectangle(
-    #     325.0,
-    #     14.0,
-    #     385.0,
-    #     74.0,
-    #     fill="#201B1B",
-    #     outline="#847171")
-
-    button_image_1 = tk.PhotoImage(
+    button_image_switchPlayer = tk.PhotoImage(
         file=relative_to_assets("button_1.png"))
-    button_1 = tk.Button(
-        image=button_image_1,
+    switchPlayerButton = tk.Button(
+        image=button_image_switchPlayer,
         borderwidth=0,
         highlightthickness=0,
-        command=lambda: print("button_1 clicked"),
+        command=lambda: switchProfile("command"),
         relief="flat"
     )
-    button_1.place(
+    switchPlayerButton.place(
         x=325.0,
         y=14.0,
         width=60.0,
         height=60.0
     )
 
-    # canvas.create_rectangle(
-    #     19.000000000000014,
-    #     18.0,
-    #     169.0,
-    #     161.0,
-    #     fill="#837171",
-    #     outline="#847171")
-
     window.resizable(False, False)
 
+    clientInfos()
     infosBrawlRecuperation()
     window.mainloop()
     global end
@@ -801,7 +921,7 @@ def validateBrawlID():
     # frame.pack_forget()
     root.destroy()
     mainFrame()
-    
+    # clientInfos(brawlIdClient)
 
 
 
@@ -886,16 +1006,4 @@ canvas.create_text(
 )
 root.resizable(False, False)
 root.mainloop()
-
-
-# characterPlayer = tk.StringVar()
-# brawlIDLabel = ttk.Label(frame, width = 20, text = 'Enter your Brawlhalla ID : ')
-# brawlIDLabel.grid(column = 0, row = 0)
-# brawlID = tk.StringVar()
-# brawlIDEntry = ttk.Entry(frame, width = 20, textvariable = brawlID)
-# brawlIDEntry.grid(column = 0, row = 1)
-# validateButton = ttk.Button(frame, width = 20, text = 'Validate', command = validateBrawlID)
-# validateButton.grid(column = 0, row = 2)
-
-# root.mainloop()
 
