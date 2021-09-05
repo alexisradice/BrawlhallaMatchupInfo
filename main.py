@@ -13,9 +13,11 @@ import easyocr
 from io import BytesIO
 from PIL import ImageTk, Image
 import urllib.request
+import json
 
 playerNameClient = ""
 levelClient = 0
+regionClient = ""
 ratingClient = 0
 peakRatingClient = 0
 mainLevelCharacterClient = ""
@@ -28,6 +30,7 @@ timePlayedClient = ""
 
 playerNameOpponent = ""
 levelOpponent = 0
+regionOpponent = ""
 ratingOpponent = 0
 peakRatingOpponent = 0
 mainLevelCharacterOpponent = ""
@@ -38,7 +41,8 @@ trueLevelOpponent = 0
 passiveAgressiveOpponent = ""
 timePlayedOpponent = ""
 
-
+pictureCharacterOpponent = None
+pictureCharacterClient = None
 firstLaunch = True
 switchProfileBool = False
 
@@ -160,6 +164,8 @@ def mainFrame():
         
         elif (origin == "opponent"):
             switchProfileBool = False
+            switchPlayerButton["state"] = "active"
+            switchPlayerButton["image"] = button_image_switchPlayer
         
         elif (origin == "command"):
             if (playerNamePlayerLabel.cget("text") == playerNameClient):
@@ -169,25 +175,10 @@ def mainFrame():
             print(playerNamePlayerLabel.cget("text"), playerNameClient)
 
 
-
         if (switchProfileBool == True):
-            try:
-                URL = "http://" + pictureMainRankedCharacterClient.split()[0] + "_" + pictureMainRankedCharacterClient.split()[1]
-            except:
-                URL = "http://" + pictureMainRankedCharacterClient
 
-            print(URL)
-
-            u = urllib.request.urlopen(URL)
-            raw_data = u.read()
-            u.close()
-
-            im = Image.open(BytesIO(raw_data))
-            im = im.resize((150,150),Image.ANTIALIAS)
-            photo = ImageTk.PhotoImage(im)
-            picture["image"] = photo
-            picture.image = photo
-
+            picture["image"] = pictureCharacterClient
+            picture.image = pictureCharacterClient
 
 
             playerNamePlayerLabel["text"] = playerNameClient
@@ -240,21 +231,9 @@ def mainFrame():
 
 
         else:
-            try:
-                URL = "http://" + pictureMainRankedCharacterOpponent.split()[0] + "_" + pictureMainRankedCharacterOpponent.split()[1]
-            except:
-                URL = "http://" + pictureMainRankedCharacterOpponent
 
-
-            u = urllib.request.urlopen(URL)
-            raw_data = u.read()
-            u.close()
-
-            im = Image.open(BytesIO(raw_data))
-            im = im.resize((150,150),Image.ANTIALIAS)
-            photo = ImageTk.PhotoImage(im)
-            picture["image"] = photo
-            picture.image = photo
+            picture["image"] = pictureCharacterOpponent
+            picture.image = pictureCharacterOpponent
 
 
             playerNamePlayerLabel["text"] = playerNameOpponent
@@ -308,33 +287,51 @@ def mainFrame():
 
     def clientInfos():
 
-        linkAPI = "http://localhost:8080/api/brawl/client/{}".format(brawlIdClient)
+        linkAPI = "https://brawlhalla-matchup-infos-api.vercel.app/api/brawl/client/{}".format(brawlIdClient)
         print(brawlIdClient)
         response = requests.get(linkAPI)
         apiResult = response.json()
 
         global playerNameClient
-        playerNameClient = apiResult['statsClientJSON']['name']
+        playerNameClient = apiResult['dataClientJSON']['playerName']
+        global regionClient
+        regionClient = apiResult['dataClientJSON']['region']
         global levelClient
-        levelClient = apiResult['statsClientJSON']['level']
+        levelClient = apiResult['dataClientJSON']['level']
         global ratingClient
-        ratingClient = apiResult['rankedClientJSON']['rating']
+        ratingClient = apiResult['dataClientJSON']['rating']
         global peakRatingClient
-        peakRatingClient = apiResult['rankedClientJSON']['peak_rating']
+        peakRatingClient = apiResult['dataClientJSON']['peakRating']
         global mainLevelCharacterClient
-        mainLevelCharacterClient = apiResult['miscClientJSON']['mainLevelCharacter']
+        mainLevelCharacterClient = apiResult['dataClientJSON']['mainLevelCharacter']
         global mainRankedCharacterClient
-        mainRankedCharacterClient = apiResult['miscClientJSON']['mainRankedCharacter']
+        mainRankedCharacterClient = apiResult['dataClientJSON']['mainRankedCharacter']
         global pictureMainRankedCharacterClient
-        pictureMainRankedCharacterClient = apiResult['miscClientJSON']['pictureMainRankedCharacter']
+        pictureMainRankedCharacterClient = apiResult['dataClientJSON']['pictureMainRankedCharacter']
         global mainWeaponClient
-        mainWeaponClient = apiResult['miscClientJSON']['mainWeapon']
+        mainWeaponClient = apiResult['dataClientJSON']['mainWeapon']
         global trueLevelClient
-        trueLevelClient = apiResult['miscClientJSON']['trueLevel']
+        trueLevelClient = apiResult['dataClientJSON']['trueLevel']
         global passiveAgressiveClient
-        passiveAgressiveClient = apiResult['miscClientJSON']['passiveAgressive']
+        passiveAgressiveClient = apiResult['dataClientJSON']['passiveAgressive']
         global timePlayedClient
-        timePlayedClient = apiResult['miscClientJSON']['timePlayed']
+        timePlayedClient = apiResult['dataClientJSON']['timePlayed']
+
+        try:
+            URL = pictureMainRankedCharacterClient.split()[0] + "_" + pictureMainRankedCharacterClient.split()[1]
+        except:
+            URL = pictureMainRankedCharacterClient
+
+        print(pictureMainRankedCharacterClient)
+
+        u = urllib.request.urlopen(URL)
+        raw_data = u.read()
+        u.close()
+
+        im = Image.open(BytesIO(raw_data))
+        im = im.resize((150,150),Image.ANTIALIAS)
+        global pictureCharacterClient
+        pictureCharacterClient = ImageTk.PhotoImage(im)
 
         switchProfile("client")
 
@@ -353,36 +350,53 @@ def mainFrame():
 
             try:
 
-                linkAPI = "http://localhost:8080/api/brawl/{}&{}".format(
-                    finalList[2], brawlIdClient)
+                linkAPI = "https://brawlhalla-matchup-infos-api.vercel.app/api/brawl/opponent/{}&{}&{}&{}".format(
+                    finalList[2], brawlIdClient, ratingClient, regionClient)
                 response = requests.get(linkAPI)
                 apiResult = response.json()
 
                 global playerNameOpponent
-                playerNameOpponent = apiResult['statsOpponentJSON']['name']
+                playerNameOpponent = apiResult['dataOpponentJSON']['playerName']
                 global levelOpponent
-                levelOpponent = apiResult['statsOpponentJSON']['level']
+                levelOpponent = apiResult['dataOpponentJSON']['level']
+                global regionOpponent
+                regionOpponent = apiResult['dataOpponentJSON']['region']
                 global ratingOpponent
-                ratingOpponent = apiResult['infosOpponentJSON']['rating']
+                ratingOpponent = apiResult['dataOpponentJSON']['rating']
                 global peakRatingOpponent
-                peakRatingOpponent = apiResult['infosOpponentJSON']['peak_rating']
+                peakRatingOpponent = apiResult['dataOpponentJSON']['peakRating']
                 global mainLevelCharacterOpponent
-                mainLevelCharacterOpponent = apiResult['miscOpponentJSON']['mainLevelCharacter']
+                mainLevelCharacterOpponent = apiResult['dataOpponentJSON']['mainLevelCharacter']
                 global mainRankedCharacterOpponent
-                mainRankedCharacterOpponent = apiResult['miscOpponentJSON']['mainRankedCharacter']
+                mainRankedCharacterOpponent = apiResult['dataOpponentJSON']['mainRankedCharacter']
                 global pictureMainRankedCharacterOpponent
-                pictureMainRankedCharacterOpponent = apiResult['miscOpponentJSON']['pictureMainRankedCharacter']
+                pictureMainRankedCharacterOpponent = apiResult['dataOpponentJSON']['pictureMainRankedCharacter']
                 global mainWeaponOpponent
-                mainWeaponOpponent = apiResult['miscOpponentJSON']['mainWeapon']
+                mainWeaponOpponent = apiResult['dataOpponentJSON']['mainWeapon']
                 global trueLevelOpponent
-                trueLevelOpponent = apiResult['miscOpponentJSON']['trueLevel']
+                trueLevelOpponent = apiResult['dataOpponentJSON']['trueLevel']
                 global passiveAgressiveOpponent
-                passiveAgressiveOpponent = apiResult['miscOpponentJSON']['passiveAgressive']
+                passiveAgressiveOpponent = apiResult['dataOpponentJSON']['passiveAgressive']
                 global timePlayedOpponent
-                timePlayedOpponent = apiResult['miscOpponentJSON']['timePlayed']
+                timePlayedOpponent = apiResult['dataOpponentJSON']['timePlayed']
 
                 global switchProfileBool
                 switchProfileBool = False
+
+                try:
+                    URL = pictureMainRankedCharacterOpponent.split()[0] + "_" + pictureMainRankedCharacterOpponent.split()[1]
+                except:
+                    URL = pictureMainRankedCharacterOpponent
+
+
+                u = urllib.request.urlopen(URL)
+                raw_data = u.read()
+                u.close()
+
+                im = Image.open(BytesIO(raw_data))
+                im = im.resize((150,150),Image.ANTIALIAS)
+                global pictureCharacterOpponent
+                pictureCharacterOpponent = ImageTk.PhotoImage(im)
 
                 switchProfile("opponent")
                 
@@ -836,7 +850,7 @@ def mainFrame():
         highlightthickness=0
     )
     passiveAgressivePlayerEntry.place(
-        x=154.0,
+        x=156.0,
         y=609.0,
         width=222.0,
         height=25.0
@@ -875,12 +889,20 @@ def mainFrame():
         height=40.0
     )
 
-    button_image_switchPlayer = tk.PhotoImage(
-        file=relative_to_assets("button_1.png"))
-    switchPlayerButton = tk.Button(
+    button_image_switchPlayer = tk.PhotoImage(file=relative_to_assets("button_1.png"))
+    entry_bg_switchPlayer = canvas.create_image(
+        265.0,
+        622.5,
         image=button_image_switchPlayer,
+        state = "hidden"
+    )
+    switchPlayerButton = tk.Button(
+        image="",
         borderwidth=0,
         highlightthickness=0,
+        bg = "#1F1A1A",
+        activebackground = "#1F1A1A",
+        state = "disabled",
         command=lambda: switchProfile("command"),
         relief="flat"
     )
@@ -890,6 +912,7 @@ def mainFrame():
         width=60.0,
         height=60.0
     )
+    # switchPlayerButton.pack_forget()
 
     window.resizable(False, False)
 
@@ -908,8 +931,6 @@ def mainFrame():
 
 
 
-
-
 q = Queue()
 t = Thread(target=detect_brawlhalla, args=(q,))
 
@@ -918,10 +939,25 @@ def validateBrawlID():
 
     global brawlIdClient
     brawlIdClient = brawlID.get()
+    brawlIdEntry = {"brawlIdClient" : brawlIdClient}
+    file = open(dir + "/save.txt", "w")
+    str = json.dumps(brawlIdEntry)
+    file.write(str)
+    file.close()
     # frame.pack_forget()
     root.destroy()
     mainFrame()
     # clientInfos(brawlIdClient)
+
+
+def saveIdInFile(brawlIdClient):
+    print(brawlIdClient)
+    brawlIdInput = {"BrawlIDClientEntry" : brawlIdClient}
+    file = open(dir+"/save.txt", "w")
+    str = repr(brawlIdInput)
+    file.write(str + "\n")
+    file.close()
+
 
 
 
@@ -960,6 +996,7 @@ brawlIDEntry = ttk.Entry(
     # disabledforeground="#ffffff",
     # state="readonly",
     # state="disabled",
+    insertbackground="#ffffff",
     font=("ITCErasStd-Ultra", 40 * -1),
     justify='center',
     highlightthickness=0
@@ -1005,5 +1042,19 @@ canvas.create_text(
     font=("ITCErasStd-Ultra", 24 * -1)
 )
 root.resizable(False, False)
+
+
+def readInFile():
+    f = open(dir+'/save.txt', 'r')
+    if f.mode=='r':
+        # id= f.read()
+        json_data = json.load(f)
+        id = json_data["brawlIdClient"]
+        brawlIDEntry.insert(0,id)
+        print(id)
+
+readInFile()
+
+
 root.mainloop()
 
