@@ -16,28 +16,32 @@ import urllib.request
 import json
 
 playerNameClient = ""
-levelClient = 0
+levelClient = ""
 regionClient = ""
-ratingClient = 0
-peakRatingClient = 0
+ratingClient = ""
+peakRatingClient = ""
+globalRankClient = ""
+regionRankClient = ""
 mainLevelCharacterClient = ""
 mainRankedCharacterClient = ""
 pictureMainRankedCharacterClient = ""
 mainWeaponClient = ""
-trueLevelClient = 0
+trueLevelClient = ""
 passiveAgressiveClient = ""
 timePlayedClient = ""
 
 playerNameOpponent = ""
-levelOpponent = 0
+levelOpponent = ""
 regionOpponent = ""
-ratingOpponent = 0
-peakRatingOpponent = 0
+ratingOpponent = ""
+globalRankOpponent = ""
+regionRankOpponent = ""
+peakRatingOpponent = ""
 mainLevelCharacterOpponent = ""
 mainRankedCharacterOpponent = ""
 pictureMainRankedCharacterOpponent = ""
 mainWeaponOpponent = ""
-trueLevelOpponent = 0
+trueLevelOpponent = ""
 passiveAgressiveOpponent = ""
 timePlayedOpponent = ""
 
@@ -182,6 +186,9 @@ def mainFrame():
 
 
             playerNamePlayerLabel["text"] = playerNameClient
+            globalRankPlayerLabel["text"] = "#" + str(globalRankClient)
+            regionRankPlayerLabel["text"] = "#" + str(regionRankClient)
+            regionRankPlayerTitleLabel["text"] = regionClient + " Rank :"
 
             levelPlayerEntry["state"] = "normal"
             levelPlayerEntry.delete(0, tk.END)
@@ -237,6 +244,9 @@ def mainFrame():
 
 
             playerNamePlayerLabel["text"] = playerNameOpponent
+            globalRankPlayerLabel["text"] = "#" + str(globalRankOpponent)
+            regionRankPlayerLabel["text"] = "#" + str(regionRankOpponent)
+            regionRankPlayerTitleLabel["text"] = regionOpponent + " Rank :"
 
             levelPlayerEntry["state"] = "normal"
             levelPlayerEntry.delete(0, tk.END)
@@ -302,6 +312,10 @@ def mainFrame():
         ratingClient = apiResult['dataClientJSON']['rating']
         global peakRatingClient
         peakRatingClient = apiResult['dataClientJSON']['peakRating']
+        global globalRankClient
+        globalRankClient = apiResult['dataClientJSON']['globalRank']
+        global regionRankClient
+        regionRankClient = apiResult['dataClientJSON']['regionRank']
         global mainLevelCharacterClient
         mainLevelCharacterClient = apiResult['dataClientJSON']['mainLevelCharacter']
         global mainRankedCharacterClient
@@ -365,6 +379,10 @@ def mainFrame():
                 ratingOpponent = apiResult['dataOpponentJSON']['rating']
                 global peakRatingOpponent
                 peakRatingOpponent = apiResult['dataOpponentJSON']['peakRating']
+                global globalRankOpponent
+                globalRankOpponent = apiResult['dataOpponentJSON']['globalRank']
+                global regionRankOpponent
+                regionRankOpponent = apiResult['dataOpponentJSON']['regionRank']
                 global mainLevelCharacterOpponent
                 mainLevelCharacterOpponent = apiResult['dataOpponentJSON']['mainLevelCharacter']
                 global mainRankedCharacterOpponent
@@ -860,8 +878,65 @@ def mainFrame():
 
 
 
+    globalRankPlayerTitleLabel = tk.Label(
+        text = "Global Rank :",
+        bd=0,
+        bg="#1F1A1A",
+        fg="#ffffff",
+        font=("ITCErasStd-Ultra", 16 * -1),
+        anchor="w"
+    )
+    globalRankPlayerTitleLabel.place(
+        x=175,
+        y=30.0,
+        width=350.0,
+        height=40.0
+    )
 
+    regionRankPlayerTitleLabel = tk.Label(
+        text = "Region Rank :",
+        bd=0,
+        bg="#1F1A1A",
+        fg="#ffffff",
+        font=("ITCErasStd-Ultra", 16 * -1),
+        anchor="w"
+    )
+    regionRankPlayerTitleLabel.place(
+        x=175,
+        y=90.0,
+        width=350.0,
+        height=40.0
+    )
 
+    globalRankPlayerLabel = tk.Label(
+        text = "#2624969",
+        bd=0,
+        bg="#1F1A1A",
+        fg="#ffffff",
+        font=("ITCErasStd-Ultra", 30 * -1),
+        anchor="w"
+    )
+    globalRankPlayerLabel.place(
+        x=175,
+        y=55.0,
+        width=350.0,
+        height=40.0
+    )
+
+    regionRankPlayerLabel = tk.Label(
+        text = "#2624969",
+        bd=0,
+        bg="#1F1A1A",
+        fg="#ffffff",
+        font=("ITCErasStd-Ultra", 30 * -1),
+        anchor="w"
+    )
+    regionRankPlayerLabel.place(
+        x=175,
+        y=115.0,
+        width=350.0,
+        height=40.0
+    )
 
 
 
@@ -907,8 +982,8 @@ def mainFrame():
         relief="flat"
     )
     switchPlayerButton.place(
-        x=325.0,
-        y=14.0,
+        x=345.0,
+        y=5.0,
         width=60.0,
         height=60.0
     )
@@ -935,19 +1010,25 @@ q = Queue()
 t = Thread(target=detect_brawlhalla, args=(q,))
 
 def validateBrawlID():
-    t.start()
-
     global brawlIdClient
     brawlIdClient = brawlID.get()
-    brawlIdEntry = {"brawlIdClient" : brawlIdClient}
-    file = open(dir + "/save.txt", "w")
-    str = json.dumps(brawlIdEntry)
-    file.write(str)
-    file.close()
-    # frame.pack_forget()
-    root.destroy()
-    mainFrame()
-    # clientInfos(brawlIdClient)
+    print(brawlIdClient)
+
+    linkAPI = "https://brawlhalla-matchup-infos-api.vercel.app/api/brawl/test/{}".format(brawlIdClient)
+    response = requests.get(linkAPI)
+    apiResult = response.json()
+    if(apiResult["result"]["correctID"] == True):
+        t.start()
+
+        brawlIdEntry = {"brawlIdClient" : brawlIdClient}
+        file = open(dir + "/save.txt", "w")
+        str = json.dumps(brawlIdEntry)
+        file.write(str)
+        file.close()
+        # frame.pack_forget()
+        root.destroy()
+        mainFrame()
+        # clientInfos(brawlIdClient)
 
 
 def saveIdInFile(brawlIdClient):
