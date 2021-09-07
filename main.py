@@ -364,8 +364,8 @@ def mainFrame():
 
             try:
 
-                linkAPI = "https://brawlhalla-matchup-infos-api.vercel.app/api/brawl/opponent/{}&{}&{}&{}".format(
-                    finalList[2], brawlIdClient, ratingClient, regionClient)
+                linkAPI = "https://brawlhalla-matchup-infos-api.vercel.app/api/brawl/opponent/{}&{}&{}".format(
+                    finalList[2], ratingClient, regionClient)
                 response = requests.get(linkAPI)
                 apiResult = response.json()
 
@@ -664,7 +664,7 @@ def mainFrame():
     )
     ratingPlayerEntry.place(
     x=174.0,
-    y=241.0,
+    y=244.0,
     width=202.0,
     height=25.0
     )
@@ -690,7 +690,7 @@ def mainFrame():
     )
     peakRatingPlayerEntry.place(
         x=142.0,
-        y=287.0,
+        y=290.0,
         width=234.0,
         height=25.0
     )
@@ -716,7 +716,7 @@ def mainFrame():
     )
     mainLevelCharacterPlayerEntry.place(
         x=187.0,
-        y=333.0,
+        y=336.0,
         width=189.0,
         height=25.0
     )
@@ -742,7 +742,7 @@ def mainFrame():
     )
     mainWeaponPlayerEntry.place(
         x=194.0,
-        y=379.0,
+        y=382.0,
         width=182.0,
         height=25.0
     )
@@ -767,7 +767,7 @@ def mainFrame():
     )
     levelPlayerEntry.place(
         x=113.00000000000001,
-        y=425.0,
+        y=428.0,
         width=263.0,
         height=25.0
     )
@@ -793,7 +793,7 @@ def mainFrame():
     )
     trueLevelPlayerEntry.place(
         x=164.0,
-        y=471.0,
+        y=474.0,
         width=212.0,
         height=25.0
     )
@@ -818,7 +818,7 @@ def mainFrame():
     )
     mainRankedCharacterPlayerEntry.place(
         x=164.0,
-        y=517.0,
+        y=519.0,
         width=212.0,
         height=25.0
     )
@@ -844,7 +844,7 @@ def mainFrame():
     )
     timePlayedPlayerEntry.place(
         x=180.0,
-        y=563.0,
+        y=566.0,
         width=196.0,
         height=25.0
     )
@@ -869,14 +869,10 @@ def mainFrame():
     )
     passiveAgressivePlayerEntry.place(
         x=156.0,
-        y=609.0,
+        y=611.0,
         width=222.0,
         height=25.0
     )
-
-
-
-
 
     globalRankPlayerTitleLabel = tk.Label(
         text = "Global Rank :",
@@ -938,8 +934,6 @@ def mainFrame():
         height=40.0
     )
 
-
-
     canvas.create_rectangle(
         14.000000000000014,
         217.0,
@@ -947,7 +941,6 @@ def mainFrame():
         223.0,
         fill="#837171",
         outline="#847171")
-
 
     playerNamePlayerLabel = tk.Label(
         text = "PlayerName",
@@ -1017,18 +1010,35 @@ def validateBrawlID():
     linkAPI = "https://brawlhalla-matchup-infos-api.vercel.app/api/brawl/test/{}".format(brawlIdClient)
     response = requests.get(linkAPI)
     apiResult = response.json()
-    if(apiResult["result"]["correctID"] == True):
-        t.start()
+    try:
+        int(brawlIdEntry.get())
+        # try:
+        if(apiResult["result"]["correctID"] == True):
+            t.start()
+            brawlIdEntryText = {"brawlIdClient" : brawlIdClient}
+            file = open(dir + "/save.txt", "w")
+            text = json.dumps(brawlIdEntryText)
+            file.write(text)
+            file.close()
+            # frame.pack_forget()
+            root.destroy()
+            mainFrame()
+            # clientInfos(brawlIdClient)
+        # except Exception:
+        else:
+            waitingTime = apiResult["result"]["waitingTime"]
+            errorIdLabel["text"] = "Error: ID is incorrect, try again in " + str(waitingTime) + " seconds"
+            validateButton["state"] = "disabled"
+            var = tk.IntVar()
+            root.after(waitingTime*1000, var.set, 1)
+            print("waiting...")
+            root.wait_variable(var)
+            errorIdLabel["text"] = ""
+            validateButton["state"] = "normal"
 
-        brawlIdEntry = {"brawlIdClient" : brawlIdClient}
-        file = open(dir + "/save.txt", "w")
-        str = json.dumps(brawlIdEntry)
-        file.write(str)
-        file.close()
-        # frame.pack_forget()
-        root.destroy()
-        mainFrame()
-        # clientInfos(brawlIdClient)
+    except ValueError:
+        errorIdLabel["text"] = "Error: this is not a number, try again"
+
 
 
 def saveIdInFile(brawlIdClient):
@@ -1041,10 +1051,9 @@ def saveIdInFile(brawlIdClient):
 
 
 
-
 root = tk.Tk()
 root.title('Brawlhalla Matchup Infos v1')
-root.geometry("410x150")
+root.geometry("410x165")
 
 # frame = ttk.Frame(root)
 # frame.pack()
@@ -1052,12 +1061,13 @@ root.geometry("410x150")
 canvas = tk.Canvas(
     root,
     bg = "#201B1B",
-    height = 150,
+    height = 165,
     width = 410,
     bd = 0,
     highlightthickness = 0,
     relief = "ridge"
 )
+
 
 brawlID = tk.StringVar()
 canvas.place(x = 0, y = 0)
@@ -1068,7 +1078,7 @@ entry_bg_brawlID = canvas.create_image(
     75.5,
     image=entry_image_brawlID
 )
-brawlIDEntry = ttk.Entry(
+brawlIdEntry = ttk.Entry(
     textvariable = brawlID,
     bd=0,
     bg="#000000",
@@ -1082,23 +1092,37 @@ brawlIDEntry = ttk.Entry(
     justify='center',
     highlightthickness=0
 )
-brawlIDEntry.place(
+brawlIdEntry.place(
     x=67.0,
     y=55.0,
     width=276.0,
     height=43.0
 )
 
+errorIdLabel = tk.Label(
+    text = "",
+    bd=0,
+    bg="#1F1A1A",
+    fg="red",
+    font=("ITCErasStd-Ultra", 16 * -1),
+    anchor="w"
+)
+errorIdLabel.place(
+    x=5,
+    y=105.0,
+    width=400.0,
+    height=20.0
+)
+
 canvas.create_rectangle(
     155.0,
-    114.0,
+    130.0,
     255.0,
     140.0,
     fill="#201B1B",
     outline="")
 
-
-button_1 = tk.Button(
+validateButton = tk.Button(
     # image=button_image_0,
     borderwidth=0,
     highlightthickness=0,
@@ -1107,9 +1131,9 @@ button_1 = tk.Button(
     text = "Validate",
     font=("ITCErasStd-Ultra", 24 * -1)
 )
-button_1.place(
+validateButton.place(
     x=150.0,
-    y=114.0,
+    y=130.0,
     width=110.0,
     height=26.0
 )
@@ -1131,7 +1155,7 @@ def readInFile():
         # id= f.read()
         json_data = json.load(f)
         id = json_data["brawlIdClient"]
-        brawlIDEntry.insert(0,id)
+        brawlIdEntry.insert(0,id)
         print(id)
 
 readInFile()

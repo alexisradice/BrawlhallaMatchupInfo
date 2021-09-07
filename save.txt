@@ -1,1 +1,1 @@
-{"brawlIdClient": "36370892"}
+{"brawlIdClient": ""}
