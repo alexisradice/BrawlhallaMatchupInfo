@@ -4,12 +4,12 @@ from queue import Queue
 from threading import Thread
 import requests
 from pathlib import Path
+import easyocr
 import os
 import cv2
 import numpy as np
 import pyautogui
 import time
-import easyocr
 from io import BytesIO
 from PIL import ImageTk, Image
 import urllib.request
@@ -107,7 +107,6 @@ def detect_brawlhalla(queue=None):
                 thickness = -1
                 crop = cv2.rectangle(imgBattle, start_point, end_point, color, thickness)
                 crop = imgBattle[y:y + h, x:x + w]
-                # crop = cv2.resize(crop, None, fx=2, fy=2, interpolation=cv2.INTER_CUBIC)
 
                 listInfoPlayer = ocr_core(crop)
 
@@ -148,12 +147,9 @@ def detect_brawlhalla(queue=None):
                 time.sleep(10)
         except Exception as e:
             print(e)
-            print("bug main")
 
 
 brawlIdClient = 0
-
-
 
 
 def mainFrame():
@@ -176,14 +172,12 @@ def mainFrame():
                 switchProfileBool = False
             else:
                 switchProfileBool = True
-            print(playerNamePlayerLabel.cget("text"), playerNameClient)
 
 
         if (switchProfileBool == True):
 
             picture["image"] = pictureCharacterClient
             picture.image = pictureCharacterClient
-
 
             playerNamePlayerLabel["text"] = playerNameClient
             globalRankPlayerLabel["text"] = "#" + str(globalRankClient)
@@ -242,7 +236,6 @@ def mainFrame():
             picture["image"] = pictureCharacterOpponent
             picture.image = pictureCharacterOpponent
 
-
             playerNamePlayerLabel["text"] = playerNameOpponent
             globalRankPlayerLabel["text"] = "#" + str(globalRankOpponent)
             regionRankPlayerLabel["text"] = "#" + str(regionRankOpponent)
@@ -298,7 +291,6 @@ def mainFrame():
     def clientInfos():
 
         linkAPI = "https://brawlhalla-matchup-infos-api.vercel.app/api/brawl/client/{}".format(brawlIdClient)
-        print(brawlIdClient)
         response = requests.get(linkAPI)
         apiResult = response.json()
 
@@ -336,8 +328,6 @@ def mainFrame():
         except:
             URL = pictureMainRankedCharacterClient
 
-        print(pictureMainRankedCharacterClient)
-
         u = urllib.request.urlopen(URL)
         raw_data = u.read()
         u.close()
@@ -355,12 +345,9 @@ def mainFrame():
 
         if not q.empty():
             finalList = q.get()
-            # print(finalList)
 
 
             q.task_done()
-
-            print(brawlIdClient)
 
             try:
 
@@ -429,6 +416,7 @@ def mainFrame():
 
     window.geometry("405x660")
     window.title("Brawlhalla Matchup Infos v1")
+    window.iconbitmap(dir + "/img/azoth.ico")
     window.configure(bg="#1F1A1A")
 
 
@@ -637,8 +625,6 @@ def mainFrame():
     width=154,
     height=154
     )
-
-
 
 
 
@@ -994,18 +980,12 @@ def mainFrame():
 
 
 
-
-
-
-
-
 q = Queue()
 t = Thread(target=detect_brawlhalla, args=(q,))
 
 def validateBrawlID():
     global brawlIdClient
     brawlIdClient = brawlID.get()
-    print(brawlIdClient)
 
     linkAPI = "https://brawlhalla-matchup-infos-api.vercel.app/api/brawl/test/{}".format(brawlIdClient)
     response = requests.get(linkAPI)
@@ -1042,7 +1022,6 @@ def validateBrawlID():
 
 
 def saveIdInFile(brawlIdClient):
-    print(brawlIdClient)
     brawlIdInput = {"BrawlIDClientEntry" : brawlIdClient}
     file = open(dir+"/save.txt", "w")
     str = repr(brawlIdInput)
@@ -1054,9 +1033,9 @@ def saveIdInFile(brawlIdClient):
 root = tk.Tk()
 root.title('Brawlhalla Matchup Infos v1')
 root.geometry("410x165")
+root.iconbitmap(dir + "/img/azoth.ico")
 
-# frame = ttk.Frame(root)
-# frame.pack()
+
 
 canvas = tk.Canvas(
     root,
@@ -1156,7 +1135,6 @@ def readInFile():
         json_data = json.load(f)
         id = json_data["brawlIdClient"]
         brawlIdEntry.insert(0,id)
-        print(id)
 
 readInFile()
 
