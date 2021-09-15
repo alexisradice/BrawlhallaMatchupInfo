@@ -14,6 +14,10 @@ from io import BytesIO
 from PIL import ImageTk, Image
 import urllib.request
 import json
+from dotenv import load_dotenv
+
+load_dotenv()
+API_LINK = os.environ.get("API_LINK")
 
 playerNameClient = ""
 levelClient = ""
@@ -50,6 +54,12 @@ pictureCharacterClient = None
 firstLaunch = True
 switchProfileBool = False
 
+dir = os.path.dirname(os.path.abspath(__file__))
+
+response = requests.get(API_LINK + "/api/brawl/imgLoading")
+file = open(dir + "/img/imgLoading.jpg", "wb")
+file.write(response.content)
+file.close()
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path("./img/assets")
@@ -62,8 +72,6 @@ def relative_to_assets(path: str) -> Path:
 
 # need to run only once to load model into memory
 reader = easyocr.Reader(['en'])
-
-dir = os.path.dirname(os.path.abspath(__file__))
 
 def ocr_core(img):
     text = reader.readtext(img, detail=0)
@@ -109,11 +117,30 @@ def detect_brawlhalla(queue=None):
                 crop = imgBattle[y:y + h, x:x + w]
 
                 listInfoPlayer = ocr_core(crop)
+                print(listInfoPlayer)
 
                 persoPlayer = ""
                 tagPlayer = ""
                 namePlayer = ""
                 clanPlayer = ""
+                clanFounded = False
+
+                for i in range(len(listInfoPlayer)):
+                    if (listInfoPlayer[i][0] == '<'):
+                        namePlayer = listInfoPlayer[i-1]
+                        clanFounded = True
+
+
+
+                if (clanFounded == False):
+                    namePlayer = listInfoPlayer[len(listInfoPlayer) - 1]
+
+                '''
+                if (len(listInfoPlayer) == 5):
+                    persoPlayer = listInfoPlayer[0].lower().capitalize()
+                    tagPlayer = listInfoPlayer[1]
+                    namePlayer = listInfoPlayer[2] + " | " +listInfoPlayer[3]
+                    clanPlayer = listInfoPlayer[4]
 
                 if (len(listInfoPlayer) == 4):
                     persoPlayer = listInfoPlayer[0].lower().capitalize()
@@ -138,8 +165,9 @@ def detect_brawlhalla(queue=None):
                     namePlayer = listInfoPlayer[1]
                     tagPlayer = "/"
                     clanPlayer = "/"
-
-                print("Character Player: " + persoPlayer + ", Tag Player: " + tagPlayer + ", Name Player: " + namePlayer + ", Clan Player: " + clanPlayer)
+                '''
+                # print("Character Player: " + persoPlayer + ", Tag Player: " + tagPlayer + ", Name Player: " + namePlayer + ", Clan Player: " + clanPlayer)
+                print("Name Player: " + namePlayer)
                 finalList = [persoPlayer, tagPlayer, namePlayer, clanPlayer]
 
                 queue.put(finalList)
@@ -290,7 +318,7 @@ def mainFrame():
 
     def clientInfos():
 
-        linkAPI = "https://brawlhalla-matchup-infos-api.vercel.app/api/brawl/client/{}".format(brawlIdClient)
+        linkAPI = API_LINK + "/api/brawl/client/{}".format(brawlIdClient)
         response = requests.get(linkAPI)
         apiResult = response.json()
 
@@ -351,7 +379,7 @@ def mainFrame():
 
             try:
 
-                linkAPI = "https://brawlhalla-matchup-infos-api.vercel.app/api/brawl/opponent/{}&{}&{}".format(
+                linkAPI = API_LINK + "/api/brawl/opponent/{}&{}&{}".format(
                     finalList[2], ratingClient, regionClient)
                 response = requests.get(linkAPI)
                 apiResult = response.json()
