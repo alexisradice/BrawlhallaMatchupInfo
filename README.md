@@ -9,8 +9,8 @@
 - Use the [Video Instructions](https://youtube.com/) or read the text Setup section below to use.
 
 ## Screenshots
-![](https://brawlhalla-matchup-info-api.vercel.app/api/brawl/screenshot1)
 ![](https://brawlhalla-matchup-info-api.vercel.app/api/brawl/screenshot2)
+![](https://brawlhalla-matchup-info-api.vercel.app/api/brawl/screenshot1)
 
 ## How To Use
 ### Setup
