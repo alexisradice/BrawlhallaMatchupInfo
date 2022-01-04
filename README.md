@@ -9,7 +9,8 @@
 - Use the [Video Instructions](https://youtube.com/) or read the text Setup section below to use.
 
 ## Screenshots
-![](https://brawlhalla-matchup-info-api.vercel.app/api/brawl/screenshot1) ![](https://brawlhalla-matchup-info-api.vercel.app/api/brawl/screenshot2)
+![](https://brawlhalla-matchup-info-api.vercel.app/api/brawl/screenshot1)
+![](https://brawlhalla-matchup-info-api.vercel.app/api/brawl/screenshot2)
 
 ## How To Use
 ### Setup
@@ -20,18 +21,18 @@
 
 
 ### Use
-1) Open the BrawlhallaMatchupInfos program.
+1) Open the BrawlhallaMatchupInfo program.
 1) Select your Brawlhalla ID.
 1) Press **Validate** button.
 1) Play Brawlhalla in ranked mode
 1) When a game is found:
    - The opponent's information will be displayed on the app. 
-   - You can switch between your informations and the informations of the opponents by pressing the button at the top left of the application.
+   - You can switch between your information and the information of the opponent by pressing the button at the top left of the application.
    
 
 ## Technical
 - All statistics used are retrieved with the [Brawlhalla API](https://dev.brawlhalla.com/) / [Brawlhalla Open API](https://github.com/barbarbar338/bh-open-api-webpage) and then processed in another API.
 - The Passive/Neutral/Agressive status is calculated with the Average Game Length of the player.
 
-- And the true level is calculated with this formula with the level in X-axis and the xp in Y-axis which allows to find approximately the level of the player if it was not blocked at 100 
+- And the True Level is calculated with this formula with the level in X-axis and the xp in Y-axis which allows to find approximately the level of the player if it was not blocked at 100 
 ![](https://brawlhalla-matchup-info-api.vercel.app/api/brawl/screenshot4)
