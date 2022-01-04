@@ -12,6 +12,7 @@ import pyautogui
 import time
 from io import BytesIO
 from PIL import ImageTk, Image
+import ssl
 import urllib.request
 import json
 from dotenv import load_dotenv
@@ -44,6 +45,7 @@ peakRatingOpponent = ""
 mainLevelCharacterOpponent = ""
 mainRankedCharacterOpponent = ""
 pictureMainRankedCharacterOpponent = ""
+pictureMainLevelCharacterOpponent = ""
 mainWeaponOpponent = ""
 trueLevelOpponent = ""
 passiveAgressiveOpponent = ""
@@ -97,7 +99,7 @@ def detect_brawlhalla(queue=None):
             if textarealocation is not None:
                 print("Detection OK")
                 ok = True
-                time.sleep(1)
+                time.sleep(2)
                 image = pyautogui.screenshot()
                 image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
                 cv2.imwrite(pathcodeBattle, image)
@@ -105,10 +107,10 @@ def detect_brawlhalla(queue=None):
                 imgBattle = cv2.imread(pathcodeBattle)
                 imgBattle = get_greyscale(imgBattle)
 
-                y = 263
-                x = 1208
-                h = 80
-                w = 280
+                y = 300
+                x = 1030
+                h = 100
+                w = 680
                 start_point = (1200, 264)
                 end_point = (1250, 290)
                 color = (0, 0, 0)
@@ -126,7 +128,7 @@ def detect_brawlhalla(queue=None):
                 clanFounded = False
 
                 for i in range(len(listInfoPlayer)):
-                    if (listInfoPlayer[i][0] == '<'):
+                    if (listInfoPlayer[i][0] == '<' or listInfoPlayer[i][len(listInfoPlayer[i]) - 1] == '>'):
                         namePlayer = listInfoPlayer[i-1]
                         clanFounded = True
 
@@ -189,12 +191,12 @@ def mainFrame():
 
         if (origin == "client"):
             switchProfileBool = True
-        
+
         elif (origin == "opponent"):
             switchProfileBool = False
             switchPlayerButton["state"] = "active"
             switchPlayerButton["image"] = button_image_switchPlayer
-        
+
         elif (origin == "command"):
             if (playerNamePlayerLabel.cget("text") == playerNameClient):
                 switchProfileBool = False
@@ -316,7 +318,7 @@ def mainFrame():
 
 
 
-    def clientInfos():
+    def clientInfo():
 
         linkAPI = API_LINK + "/api/brawl/client/{}".format(brawlIdClient)
         response = requests.get(linkAPI)
@@ -356,7 +358,8 @@ def mainFrame():
         except:
             URL = pictureMainRankedCharacterClient
 
-        u = urllib.request.urlopen(URL)
+        context = ssl._create_unverified_context()
+        u = urllib.request.urlopen(URL, context=context)
         raw_data = u.read()
         u.close()
 
@@ -404,6 +407,8 @@ def mainFrame():
                 mainRankedCharacterOpponent = apiResult['dataOpponentJSON']['mainRankedCharacter']
                 global pictureMainRankedCharacterOpponent
                 pictureMainRankedCharacterOpponent = apiResult['dataOpponentJSON']['pictureMainRankedCharacter']
+                global pictureMainLevelCharacterOpponent
+                pictureMainLevelCharacterOpponent = apiResult['dataOpponentJSON']['pictureMainLevelCharacter']
                 global mainWeaponOpponent
                 mainWeaponOpponent = apiResult['dataOpponentJSON']['mainWeapon']
                 global trueLevelOpponent
@@ -417,12 +422,12 @@ def mainFrame():
                 switchProfileBool = False
 
                 try:
-                    URL = pictureMainRankedCharacterOpponent.split()[0] + "_" + pictureMainRankedCharacterOpponent.split()[1]
+                    URL = pictureMainLevelCharacterOpponent.split()[0] + "_" + pictureMainLevelCharacterOpponent.split()[1]
                 except:
-                    URL = pictureMainRankedCharacterOpponent
+                    URL = pictureMainLevelCharacterOpponent
 
-
-                u = urllib.request.urlopen(URL)
+                context = ssl._create_unverified_context()
+                u = urllib.request.urlopen(URL, context=context)
                 raw_data = u.read()
                 u.close()
 
@@ -443,7 +448,7 @@ def mainFrame():
     window = tk.Tk()
 
     window.geometry("405x660")
-    window.title("Brawlhalla Matchup Infos v1")
+    window.title("Brawlhalla Matchup Info v1")
     window.iconbitmap(dir + "/img/azoth.ico")
     window.configure(bg="#1F1A1A")
 
@@ -998,7 +1003,7 @@ def mainFrame():
 
     window.resizable(False, False)
 
-    clientInfos()
+    clientInfo()
     infosBrawlRecuperation()
     window.mainloop()
     global end
@@ -1015,7 +1020,7 @@ def validateBrawlID():
     global brawlIdClient
     brawlIdClient = brawlID.get()
 
-    linkAPI = "https://brawlhalla-matchup-infos-api.vercel.app/api/brawl/test/{}".format(brawlIdClient)
+    linkAPI = API_LINK + "/api/brawl/test/{}".format(brawlIdClient)
     response = requests.get(linkAPI)
     apiResult = response.json()
     try:
@@ -1031,7 +1036,7 @@ def validateBrawlID():
             # frame.pack_forget()
             root.destroy()
             mainFrame()
-            # clientInfos(brawlIdClient)
+            # clientInfo(brawlIdClient)
         # except Exception:
         else:
             waitingTime = apiResult["result"]["waitingTime"]
@@ -1059,7 +1064,7 @@ def saveIdInFile(brawlIdClient):
 
 
 root = tk.Tk()
-root.title('Brawlhalla Matchup Infos v1')
+root.title('Brawlhalla Matchup Info v1')
 root.geometry("410x165")
 root.iconbitmap(dir + "/img/azoth.ico")
 
