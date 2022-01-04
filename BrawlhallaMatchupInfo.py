@@ -108,9 +108,9 @@ def detect_brawlhalla(queue=None):
                 imgBattle = get_greyscale(imgBattle)
 
                 y = 300
-                x = 1030
-                h = 100
-                w = 680
+                x = 950
+                h = 80
+                w = 800
                 start_point = (1200, 264)
                 end_point = (1250, 290)
                 color = (0, 0, 0)
