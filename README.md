@@ -9,13 +9,13 @@
 - Use the [Video Instructions](https://youtube.com/) or read the text Setup section below to use.
 
 ## Screenshots
-![](https://brawlhalla-matchup-info-api.vercel.app/api/brawl/screenshot2)
-![](https://brawlhalla-matchup-info-api.vercel.app/api/brawl/screenshot1)
+![](https://brawlhalla-matchup-info-api.vercel.app/api/brawl/screenshots/2)
+![](https://brawlhalla-matchup-info-api.vercel.app/api/brawl/screenshots/1)
 
 ## How To Use
 ### Setup
 - It is highly recommended to install this custom mod for better detection.
-![](https://brawlhalla-matchup-info-api.vercel.app/api/brawl/screenshot3)
+![](https://brawlhalla-matchup-info-api.vercel.app/api/brawl/screenshots/3)
 - To install download [UI_1.swf](https://brawlhalla-matchup-info-api.vercel.app/api/brawl/UI_1.swf) and drag the file into the brawlhalla directory 
 - Or Download [BrawlhallaMatchupInfosMod.bmod](https://brawlhalla-matchup-info-api.vercel.app/api/brawl/BrawlhallaMatchupInfosMod.bmod) and install with [Brawlhalla Mod Loader](https://github.com/Farbigoz/BHModLoader)
 
@@ -35,4 +35,4 @@
 - The Passive/Neutral/Agressive status is calculated with the Average Game Length of the player.
 
 - And the True Level is calculated with this formula with the level in X-axis and the xp in Y-axis which allows to find approximately the level of the player if it was not blocked at 100.
-![](https://brawlhalla-matchup-info-api.vercel.app/api/brawl/screenshot4)
+![](https://brawlhalla-matchup-info-api.vercel.app/api/brawl/screenshots/4)
