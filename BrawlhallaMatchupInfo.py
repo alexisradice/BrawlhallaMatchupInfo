@@ -1,5 +1,6 @@
 import tkinter as tk
 import tkinter as ttk
+import webbrowser
 from queue import Queue
 from threading import Thread
 import requests
@@ -22,6 +23,7 @@ load_dotenv()
 API_LINK = os.environ.get("API_LINK")
 
 playerNameClient = ""
+brawlIdClient = ""
 levelClient = ""
 regionClient = ""
 ratingClient = ""
@@ -37,6 +39,7 @@ passiveAgressiveClient = ""
 timePlayedClient = ""
 
 playerNameOpponent = ""
+brawlIdOpponent = ""
 levelOpponent = ""
 regionOpponent = ""
 ratingOpponent = ""
@@ -51,6 +54,8 @@ mainWeaponOpponent = ""
 trueLevelOpponent = ""
 passiveAgressiveOpponent = ""
 timePlayedOpponent = ""
+
+brawlIdPlayer = ""
 
 pictureCharacterOpponent = None
 pictureCharacterClient = None
@@ -134,7 +139,6 @@ def detect_brawlhalla(queue=None):
                         clanFounded = True
 
 
-
                 if (clanFounded == False):
                     namePlayer = listInfoPlayer[len(listInfoPlayer) - 1]
 
@@ -169,8 +173,8 @@ def detect_brawlhalla(queue=None):
                     tagPlayer = "/"
                     clanPlayer = "/"
                 '''
-                # print("Character Player: " + persoPlayer + ", Tag Player: " + tagPlayer + ", Name Player: " + namePlayer + ", Clan Player: " + clanPlayer)
-                print("Name Player: " + namePlayer)
+                # print("Player Character: " + persoPlayer + ", Player Tag: " + tagPlayer + ", Player Name: " + namePlayer + ", Player Clan: " + clanPlayer)
+                print("Player Name: " + namePlayer)
                 finalList = [persoPlayer, tagPlayer, namePlayer, clanPlayer]
 
                 queue.put(finalList)
@@ -189,6 +193,7 @@ def mainFrame():
     def switchProfile(origin):
 
         global switchProfileBool
+        global brawlIdPlayer
 
         if (origin == "client"):
             switchProfileBool = True
@@ -214,6 +219,8 @@ def mainFrame():
             globalRankPlayerLabel["text"] = "#" + str(globalRankClient)
             regionRankPlayerLabel["text"] = "#" + str(regionRankClient)
             regionRankPlayerTitleLabel["text"] = regionClient + " Rank :"
+
+            brawlIdPlayer = brawlIdClient
 
             levelPlayerEntry["state"] = "normal"
             levelPlayerEntry.delete(0, tk.END)
@@ -261,7 +268,6 @@ def mainFrame():
             timePlayedPlayerEntry["state"] = "disabled"
 
 
-
         else:
 
             picture["image"] = pictureCharacterOpponent
@@ -271,6 +277,8 @@ def mainFrame():
             globalRankPlayerLabel["text"] = "#" + str(globalRankOpponent)
             regionRankPlayerLabel["text"] = "#" + str(regionRankOpponent)
             regionRankPlayerTitleLabel["text"] = regionOpponent + " Rank :"
+
+            brawlIdPlayer = brawlIdOpponent
 
             levelPlayerEntry["state"] = "normal"
             levelPlayerEntry.delete(0, tk.END)
@@ -390,6 +398,8 @@ def mainFrame():
 
                 global playerNameOpponent
                 playerNameOpponent = apiResult['dataOpponentJSON']['playerName']
+                global brawlIdOpponent
+                brawlIdOpponent = apiResult['dataOpponentJSON']['brawlID']
                 global levelOpponent
                 levelOpponent = apiResult['dataOpponentJSON']['level']
                 global regionOpponent
@@ -449,7 +459,7 @@ def mainFrame():
     window = tk.Tk()
 
     window.geometry("405x660")
-    window.title("Brawlhalla Matchup Info v1")
+    window.title("Brawlhalla Matchup Info")
     window.iconbitmap(dir + "/img/azoth.ico")
     window.configure(bg="#1F1A1A")
 
@@ -552,7 +562,7 @@ def mainFrame():
         anchor="nw",
         text="Current Elo :",
         fill="#E9EE23",
-        font=("ITCErasStd-Ultra", 18 * -1)
+        font=("Eras Bold ITC", 20 * -1)
     )
 
     canvas.create_text(
@@ -561,7 +571,7 @@ def mainFrame():
         anchor="nw",
         text="Elo Max :",
         fill="#E9EE23",
-        font=("ITCErasStd-Ultra", 18 * -1)
+        font=("Eras Bold ITC", 20 * -1)
     )
 
     canvas.create_text(
@@ -570,7 +580,7 @@ def mainFrame():
         anchor="nw",
         text="Main Legend :",
         fill="#E9EE23",
-        font=("ITCErasStd-Ultra", 18 * -1)
+        font=("Eras Bold ITC", 20 * -1)
     )
 
     canvas.create_text(
@@ -579,7 +589,7 @@ def mainFrame():
         anchor="nw",
         text="Main Weapon :",
         fill="#E9EE23",
-        font=("ITCErasStd-Ultra", 18 * -1)
+        font=("Eras Bold ITC", 20 * -1)
     )
 
     canvas.create_text(
@@ -588,7 +598,7 @@ def mainFrame():
         anchor="nw",
         text="Level :",
         fill="#E9EE23",
-        font=("ITCErasStd-Ultra", 18 * -1)
+        font=("Eras Bold ITC", 20 * -1)
     )
 
     canvas.create_text(
@@ -597,7 +607,7 @@ def mainFrame():
         anchor="nw",
         text="True Level :",
         fill="#E9EE23",
-        font=("ITCErasStd-Ultra", 18 * -1)
+        font=("Eras Bold ITC", 20 * -1)
     )
 
     canvas.create_text(
@@ -606,7 +616,7 @@ def mainFrame():
         anchor="nw",
         text="Most Rated ",
         fill="#E9EE23",
-        font=("ITCErasStd-Ultra", 18 * -1)
+        font=("Eras Bold ITC", 20 * -1)
     )
 
     canvas.create_text(
@@ -615,7 +625,7 @@ def mainFrame():
         anchor="nw",
         text="Legend :",
         fill="#E9EE23",
-        font=("ITCErasStd-Ultra", 18 * -1)
+        font=("Eras Bold ITC", 20 * -1)
     )
 
     canvas.create_text(
@@ -624,7 +634,7 @@ def mainFrame():
         anchor="nw",
         text="Time Played :",
         fill="#E9EE23",
-        font=("ITCErasStd-Ultra", 18 * -1)
+        font=("Eras Bold ITC", 20 * -1)
     )
 
     canvas.create_text(
@@ -633,7 +643,7 @@ def mainFrame():
         anchor="nw",
         text="Passive / ",
         fill="#E9EE23",
-        font=("ITCErasStd-Ultra", 18 * -1)
+        font=("Eras Bold ITC", 20 * -1)
     )
 
     canvas.create_text(
@@ -642,9 +652,8 @@ def mainFrame():
         anchor="nw",
         text="Agressive :",
         fill="#E9EE23",
-        font=("ITCErasStd-Ultra", 18 * -1)
+        font=("Eras Bold ITC", 20 * -1)
     )
-
 
 
 
@@ -679,7 +688,7 @@ def mainFrame():
         fg="#ffffff",
         disabledforeground="#ffffff",
         state="disabled",
-        font=("ITCErasStd-Ultra", 20 * -1),
+        font=("Eras Bold ITC", 22 * -1),
         highlightthickness=0
     )
     ratingPlayerEntry.place(
@@ -705,7 +714,7 @@ def mainFrame():
         fg="#ffffff",
         disabledforeground="#ffffff",
         state="disabled",
-        font=("ITCErasStd-Ultra", 20 * -1),
+        font=("Eras Bold ITC", 22 * -1),
         highlightthickness=0
     )
     peakRatingPlayerEntry.place(
@@ -731,7 +740,7 @@ def mainFrame():
         fg="#ffffff",
         disabledforeground="#ffffff",
         state="disabled",
-        font=("ITCErasStd-Ultra", 20 * -1),
+        font=("Eras Bold ITC", 22 * -1),
         highlightthickness=0
     )
     mainLevelCharacterPlayerEntry.place(
@@ -757,7 +766,7 @@ def mainFrame():
         fg="#ffffff",
         disabledforeground="#ffffff",
         state="disabled",
-        font=("ITCErasStd-Ultra", 20 * -1),
+        font=("Eras Bold ITC", 22 * -1),
         highlightthickness=0
     )
     mainWeaponPlayerEntry.place(
@@ -782,7 +791,7 @@ def mainFrame():
         fg="#ffffff",
         disabledforeground="#ffffff",
         state="disabled",
-        font=("ITCErasStd-Ultra", 20 * -1),
+        font=("Eras Bold ITC", 22 * -1),
         highlightthickness=0
     )
     levelPlayerEntry.place(
@@ -808,7 +817,7 @@ def mainFrame():
         fg="#ffffff",
         disabledforeground="#ffffff",
         state="disabled",
-        font=("ITCErasStd-Ultra", 20 * -1),
+        font=("Eras Bold ITC", 22 * -1),
         highlightthickness=0
     )
     trueLevelPlayerEntry.place(
@@ -833,7 +842,7 @@ def mainFrame():
         fg="#ffffff",
         disabledforeground="#ffffff",
         state="disabled",
-        font=("ITCErasStd-Ultra", 20 * -1),
+        font=("Eras Bold ITC", 22 * -1),
         highlightthickness=0
     )
     mainRankedCharacterPlayerEntry.place(
@@ -859,7 +868,7 @@ def mainFrame():
         fg="#ffffff",
         disabledforeground="#ffffff",
         state="disabled",
-        font=("ITCErasStd-Ultra", 20 * -1),
+        font=("Eras Bold ITC", 22 * -1),
         highlightthickness=0
     )
     timePlayedPlayerEntry.place(
@@ -884,7 +893,7 @@ def mainFrame():
         fg="#ffffff",
         disabledforeground="#ffffff",
         state="disabled",
-        font=("ITCErasStd-Ultra", 20 * -1),
+        font=("Eras Bold ITC", 22 * -1),
         highlightthickness=0
     )
     passiveAgressivePlayerEntry.place(
@@ -894,12 +903,14 @@ def mainFrame():
         height=25.0
     )
 
+
+
     globalRankPlayerTitleLabel = tk.Label(
         text = "Global Rank :",
         bd=0,
         bg="#1F1A1A",
         fg="#ffffff",
-        font=("ITCErasStd-Ultra", 16 * -1),
+        font=("Eras Bold ITC", 17 * -1),
         anchor="w"
     )
     globalRankPlayerTitleLabel.place(
@@ -914,7 +925,7 @@ def mainFrame():
         bd=0,
         bg="#1F1A1A",
         fg="#ffffff",
-        font=("ITCErasStd-Ultra", 16 * -1),
+        font=("Eras Bold ITC", 17 * -1),
         anchor="w"
     )
     regionRankPlayerTitleLabel.place(
@@ -929,7 +940,7 @@ def mainFrame():
         bd=0,
         bg="#1F1A1A",
         fg="#ffffff",
-        font=("ITCErasStd-Ultra", 30 * -1),
+        font=("Eras Bold ITC", 32 * -1),
         anchor="w"
     )
     globalRankPlayerLabel.place(
@@ -944,7 +955,7 @@ def mainFrame():
         bd=0,
         bg="#1F1A1A",
         fg="#ffffff",
-        font=("ITCErasStd-Ultra", 30 * -1),
+        font=("Eras Bold ITC", 32 * -1),
         anchor="w"
     )
     regionRankPlayerLabel.place(
@@ -953,6 +964,27 @@ def mainFrame():
         width=350.0,
         height=40.0
     )
+
+    def startWeb():
+        webbrowser.open_new("http://corehalla.com/stats/player/" + str(brawlIdPlayer))
+
+    viewAllStatsLabel = tk.Label(
+        text = "See all stats",
+        bd=0,
+        bg="#1F1A1A",
+        fg="#33c1ff",
+        font=("Eras Bold ITC", 15 * -1),
+        anchor="w",
+        cursor="hand2"
+    )
+    viewAllStatsLabel.place(
+        x=175,
+        y=145.0,
+        width=350.0,
+        height=40.0
+    )
+    viewAllStatsLabel.bind("<Button-1>", lambda e: startWeb())
+
 
     canvas.create_rectangle(
         14.000000000000014,
@@ -967,7 +999,7 @@ def mainFrame():
         bd=0,
         bg="#1F1A1A",
         fg="#ffffff",
-        font=("ITCErasStd-Ultra", 36 * -1),
+        font=("Eras Bold ITC", 37 * -1),
         anchor="w"
     )
     playerNamePlayerLabel.place(
@@ -1000,7 +1032,6 @@ def mainFrame():
         width=60.0,
         height=60.0
     )
-    # switchPlayerButton.pack_forget()
 
     window.resizable(False, False)
 
@@ -1029,19 +1060,21 @@ else:
 
 with open(config_path) as fp:
     config = json.load(fp)
-    print(user_config, config_path, config)
 
 
 def validateBrawlID():
     global brawlIdClient
     brawlIdClient = brawlID.get()
+    try:
+        linkAPI = API_LINK + "/api/brawl/test/{}".format(brawlIdClient)
+        response = requests.get(linkAPI)
+        apiResult = response.json()
+    except Exception:
+        errorIdLabel["text"] = "Error: Too many requests, please try again later"
 
-    linkAPI = API_LINK + "/api/brawl/test/{}".format(brawlIdClient)
-    response = requests.get(linkAPI)
-    apiResult = response.json()
     try:
         int(brawlIdEntry.get())
-        # try:
+
         if(apiResult["result"]["correctID"] == True):
             t.start()
             brawlIdEntryText = {"brawlIdClient" : brawlIdClient}
@@ -1050,11 +1083,8 @@ def validateBrawlID():
             text = json.dumps(brawlIdEntryText)
             file.write(text)
             file.close()
-            # frame.pack_forget()
             root.destroy()
             mainFrame()
-            # clientInfo(brawlIdClient)
-        # except Exception:
         else:
             waitingTime = apiResult["result"]["waitingTime"]
             errorIdLabel["text"] = "Error: ID is incorrect, try again in " + str(waitingTime) + " seconds"
@@ -1076,7 +1106,7 @@ def validateBrawlID():
 
 
 root = tk.Tk()
-root.title('Brawlhalla Matchup Info v1')
+root.title('Brawlhalla Matchup Info')
 root.geometry("410x165")
 root.iconbitmap(dir + "/img/azoth.ico")
 
@@ -1112,7 +1142,7 @@ brawlIdEntry = ttk.Entry(
     # state="readonly",
     # state="disabled",
     insertbackground="#ffffff",
-    font=("ITCErasStd-Ultra", 40 * -1),
+    font=("Eras Bold ITC", 47 * -1),
     justify='center',
     highlightthickness=0
 )
@@ -1128,7 +1158,7 @@ errorIdLabel = tk.Label(
     bd=0,
     bg="#1F1A1A",
     fg="red",
-    font=("ITCErasStd-Ultra", 16 * -1),
+    font=("Eras Bold ITC", 16 * -1),
     anchor="w"
 )
 errorIdLabel.place(
@@ -1153,7 +1183,7 @@ validateButton = tk.Button(
     command = validateBrawlID,
     relief="flat",
     text = "Validate",
-    font=("ITCErasStd-Ultra", 24 * -1)
+    font=("Eras Bold ITC", 24 * -1)
 )
 validateButton.place(
     x=150.0,
@@ -1168,7 +1198,7 @@ canvas.create_text(
     anchor="nw",
     text="Enter your Brawlhalla ID :",
     fill="#FFFFFF",
-    font=("ITCErasStd-Ultra", 24 * -1)
+    font=("Eras Bold ITC", 26 * -1)
 )
 root.resizable(False, False)
 
