@@ -16,6 +16,7 @@ import ssl
 import urllib.request
 import json
 from dotenv import load_dotenv
+import shutil
 
 load_dotenv()
 API_LINK = os.environ.get("API_LINK")
@@ -58,7 +59,7 @@ switchProfileBool = False
 
 dir = os.path.dirname(os.path.abspath(__file__))
 
-response = requests.get(API_LINK + "/api/brawl/imgLoading")
+response = requests.get(API_LINK + "/api/brawl/img/imgLoading")
 file = open(dir + "/img/imgLoading.jpg", "wb")
 file.write(response.content)
 file.close()
@@ -1016,6 +1017,21 @@ def mainFrame():
 q = Queue()
 t = Thread(target=detect_brawlhalla, args=(q,))
 
+user_config = os.environ.get('USERPROFILE') + '\\.BrawlhallaMatchupInfo\\config.json'
+user_config_test = os.environ.get('USERPROFILE') + '\\.BrawlhallaMatchupInfo'
+
+if os.path.exists(user_config) and os.path.isfile(user_config):
+    config_path = user_config
+else:
+    config_path = dir + '/config.json'
+    os.mkdir(user_config_test)
+    shutil.copy(config_path, user_config_test)
+
+with open(config_path) as fp:
+    config = json.load(fp)
+    print(user_config, config_path, config)
+
+
 def validateBrawlID():
     global brawlIdClient
     brawlIdClient = brawlID.get()
@@ -1029,7 +1045,8 @@ def validateBrawlID():
         if(apiResult["result"]["correctID"] == True):
             t.start()
             brawlIdEntryText = {"brawlIdClient" : brawlIdClient}
-            file = open(dir + "/save.txt", "w")
+
+            file = open(user_config, "w")
             text = json.dumps(brawlIdEntryText)
             file.write(text)
             file.close()
@@ -1054,12 +1071,7 @@ def validateBrawlID():
 
 
 
-def saveIdInFile(brawlIdClient):
-    brawlIdInput = {"BrawlIDClientEntry" : brawlIdClient}
-    file = open(dir+"/save.txt", "w")
-    str = repr(brawlIdInput)
-    file.write(str + "\n")
-    file.close()
+
 
 
 
@@ -1162,7 +1174,7 @@ root.resizable(False, False)
 
 
 def readInFile():
-    f = open(dir+'/save.txt', 'r')
+    f = open(config_path, 'r')
     if f.mode=='r':
         # id= f.read()
         json_data = json.load(f)
