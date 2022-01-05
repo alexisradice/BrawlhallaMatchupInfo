@@ -5,7 +5,10 @@
 
 ## Install
 - Download [BrawlhallaMatchupInfo.exe](https://github.com/alexisradice/BrawlhallaMatchupInfo/releases) from releases.
-- Install and run `Brawlhalla Matchup Info.exe`
+- Run `Brawlhalla Matchup Info.exe`
+
+- Or Download [setupBMI.exe](https://github.com/alexisradice/BrawlhallaMatchupInfo/releases) from releases.
+- Install and Run `Brawlhalla Matchup Info.exe`
 - Use the [Video Instructions](https://youtube.com/) or read the text Setup section below to use.
 
 ## Screenshots
