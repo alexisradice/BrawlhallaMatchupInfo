@@ -4,11 +4,8 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-easyocr = "*"
-requests = "*"
-pyautogui = "*"
-pyinstaller = "*"
-python-dotenv = "*"
+opencv-python = "==4.4.0.46"
+opencv-python-headless = "==4.4.0.46"
 
 [dev-packages]
 
