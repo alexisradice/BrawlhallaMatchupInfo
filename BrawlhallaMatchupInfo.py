@@ -32,6 +32,7 @@ globalRankClient = ""
 regionRankClient = ""
 mainLevelCharacterClient = ""
 mainRankedCharacterClient = ""
+pictureMainLevelCharacterClient = ""
 pictureMainRankedCharacterClient = ""
 mainWeaponClient = ""
 trueLevelClient = ""
@@ -48,8 +49,8 @@ regionRankOpponent = ""
 peakRatingOpponent = ""
 mainLevelCharacterOpponent = ""
 mainRankedCharacterOpponent = ""
-pictureMainRankedCharacterOpponent = ""
 pictureMainLevelCharacterOpponent = ""
+pictureMainRankedCharacterOpponent = ""
 mainWeaponOpponent = ""
 trueLevelOpponent = ""
 passiveAgressiveOpponent = ""
@@ -115,7 +116,7 @@ def detect_brawlhalla(queue=None):
 
                 y = 300
                 x = 950
-                h = 80
+                h = 100
                 w = 800
                 start_point = (1200, 264)
                 end_point = (1250, 290)
@@ -133,6 +134,13 @@ def detect_brawlhalla(queue=None):
                 clanPlayer = ""
                 clanFounded = False
 
+                namePlayer = listInfoPlayer[0]
+
+                '''
+                for i in range(len(listInfoPlayer)):
+                    namePlayer = namePlayer + " " + listInfoPlayer[i]
+
+                
                 for i in range(len(listInfoPlayer)):
                     if (listInfoPlayer[i][0] == '<' or listInfoPlayer[i][len(listInfoPlayer[i]) - 1] == '>'):
                         namePlayer = listInfoPlayer[i-1]
@@ -142,7 +150,7 @@ def detect_brawlhalla(queue=None):
                 if (clanFounded == False):
                     namePlayer = listInfoPlayer[len(listInfoPlayer) - 1]
 
-                '''
+                
                 if (len(listInfoPlayer) == 5):
                     persoPlayer = listInfoPlayer[0].lower().capitalize()
                     tagPlayer = listInfoPlayer[1]
@@ -351,6 +359,8 @@ def mainFrame():
         mainLevelCharacterClient = apiResult['dataClientJSON']['mainLevelCharacter']
         global mainRankedCharacterClient
         mainRankedCharacterClient = apiResult['dataClientJSON']['mainRankedCharacter']
+        global pictureMainLevelCharacterClient
+        pictureMainLevelCharacterClient = apiResult['dataClientJSON']['pictureMainLevelCharacter']
         global pictureMainRankedCharacterClient
         pictureMainRankedCharacterClient = apiResult['dataClientJSON']['pictureMainRankedCharacter']
         global mainWeaponClient
@@ -363,9 +373,9 @@ def mainFrame():
         timePlayedClient = apiResult['dataClientJSON']['timePlayed']
 
         try:
-            URL = pictureMainRankedCharacterClient.split()[0] + "_" + pictureMainRankedCharacterClient.split()[1]
+            URL = pictureMainLevelCharacterClient.split()[0] + "_" + pictureMainLevelCharacterClient.split()[1]
         except:
-            URL = pictureMainRankedCharacterClient
+            URL = pictureMainLevelCharacterClient
 
         context = ssl._create_unverified_context()
         u = urllib.request.urlopen(URL, context=context)
@@ -416,10 +426,10 @@ def mainFrame():
                 mainLevelCharacterOpponent = apiResult['dataOpponentJSON']['mainLevelCharacter']
                 global mainRankedCharacterOpponent
                 mainRankedCharacterOpponent = apiResult['dataOpponentJSON']['mainRankedCharacter']
-                global pictureMainRankedCharacterOpponent
-                pictureMainRankedCharacterOpponent = apiResult['dataOpponentJSON']['pictureMainRankedCharacter']
                 global pictureMainLevelCharacterOpponent
                 pictureMainLevelCharacterOpponent = apiResult['dataOpponentJSON']['pictureMainLevelCharacter']
+                global pictureMainRankedCharacterOpponent
+                pictureMainRankedCharacterOpponent = apiResult['dataOpponentJSON']['pictureMainRankedCharacter']
                 global mainWeaponOpponent
                 mainWeaponOpponent = apiResult['dataOpponentJSON']['mainWeapon']
                 global trueLevelOpponent
@@ -980,7 +990,7 @@ def mainFrame():
     viewAllStatsLabel.place(
         x=175,
         y=145.0,
-        width=350.0,
+        width=90.0,
         height=40.0
     )
     viewAllStatsLabel.bind("<Button-1>", lambda e: startWeb())
