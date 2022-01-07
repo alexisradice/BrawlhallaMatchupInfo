@@ -1,6 +1,6 @@
 ﻿# Brawlhalla Matchup Info
 - This program will retrieve the information and statistics of your opponent on Brawlhalla before the start of a 1v1 ranked game, and display it. This includes the current elo, elo max, main legend by level, main weapon, level, true level, most rated legend, time played and if your opponent is passive or aggressive.
-- The tool needs a custom mod to work which you can find in Setup section below.
+- The tool needs a custom mod to work which you can find in the Setup section below.
 - The tool does not work if the opponent's nickname contains symbols otherwise it works about 8 out of 10 times with the custom mod. 
 
 
@@ -20,7 +20,7 @@
 ### Setup
 - You need to install this mod before using the app.
 ![](https://cdn.discordapp.com/attachments/878657298036322354/928678783815401543/screenshot3.jpg)
-- To install download [UI_1.swf](https://cdn.discordapp.com/attachments/878657298036322354/928441195816972319/UI_1.swf) and drag the file into the brawlhalla directory 
+- To install, download [UI_1.swf](https://cdn.discordapp.com/attachments/878657298036322354/928441195816972319/UI_1.swf) and drag the file into the brawlhalla directory 
 - Or Download [BrawlhallaMatchupInfosMod.bmod](https://cdn.discordapp.com/attachments/878657298036322354/928441223516127273/BrawlhallaMatchupInfoMod.bmod) and install with [Brawlhalla Mod Loader](https://github.com/Farbigoz/BHModLoader)
 
 
