@@ -6,6 +6,7 @@
 
 ## Install
 - Download [BrawlhallaMatchupInfo.exe](https://github.com/alexisradice/BrawlhallaMatchupInfo/releases) from releases.
+<br/>(the program may take a little time to launch depending on the power of your pc).
 - Run `Brawlhalla Matchup Info.exe`
 
 - Or Download [setupBrawlhallaMatchupInfo.exe](https://github.com/alexisradice/BrawlhallaMatchupInfo/releases) from releases.
@@ -18,6 +19,7 @@
 
 ## How To Use
 ### Setup
+- You must have played at least one 1v1 ranked game before using the app.
 - You need to install this mod before using the app.
 ![](https://cdn.discordapp.com/attachments/878657298036322354/928678783815401543/screenshot3.jpg)
 - To install, download [UI_1.swf](https://cdn.discordapp.com/attachments/878657298036322354/928441195816972319/UI_1.swf) and drag the file into the brawlhalla directory 
